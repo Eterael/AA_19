@@ -1,0 +1,8 @@
+Set,Rows,Unique_Peptides,Positives,Negatives,Positive_Rate
+Selected allele all,17211,17211,2869,14342,0.16669571785486026
+Train/test all,15621,15621,2602,13019,0.1665706420843736
+Train/test binders,2602,2602,2602,0,1.0
+Train/test non-binders,13019,13019,0,13019,0.0
+Held-out evaluation all,1590,1590,267,1323,0.16792452830188678
+Held-out evaluation binders,267,267,267,0,1.0
+Held-out evaluation non-binders,1323,1323,0,1323,0.0

@@ -1,0 +1,371 @@
+HLA 19-AA HELD-OUT RUN: FILE DESCRIPTION AND RESULT NOTES
+=========================================================
+
+Purpose
+-------
+This run tests whether binding prediction generalizes to peptides containing an
+amino acid that was completely absent from the training and cross-validation
+peptides.
+
+The selected default split is:
+  Allele: HLA-A29:02
+  Held-out amino acid: W
+  Training/CV peptides: same allele, 9-mers with no W anywhere
+  Evaluation peptides: same allele, 9-mers with at least one W anywhere
+
+This is the broader held-out-AA experiment. The P2/P9 anchor-position version
+is documented separately in HLA_19AA_Anchor_Heldout_File_Description.txt.
+
+
+Input files
+-----------
+hla_only.txt
+  Main data file. Each row has:
+    peptide label allele
+
+  Example format:
+    AAAAASSSA 0 HLA-A01:01
+
+  Only standard amino-acid 9-mers are used. The script/notebook ignores any
+  malformed row, non-binary label, non-9-mer peptide, or peptide containing a
+  non-standard residue.
+
+peptide_autoencoder_v3_512.pth
+  Autoencoder weights used for the AE encoder. This is the unphosphorylated
+  autoencoder and is the only AE weight file used by these HLA-only runs.
+
+peptide_autoencoder_v3_512_p.pth
+  Phosphorylation-aware AE weights. This file is present in the folder but is
+  intentionally not used in the HLA 19-AA runs.
+
+peptide_rotamers/
+  Expected image folder for recomputing AE residue centroids. It is needed if
+  rerunning the AE encoder from scratch. The current general held-out result
+  folder already contains trained model outputs, but a fresh AE run still needs
+  this image directory.
+
+
+Main code files
+---------------
+HLA_19AA_Heldout_Run.ipynb
+  Main notebook for the broader held-out-AA experiment. It prepares the split,
+  trains five folds for each encoder, predicts the held-out evaluation set with
+  a five-model ensemble, and writes CSV summaries.
+
+  Important configuration variables:
+    ALLELE = None
+      Automatically choose the largest valid allele/amino-acid split.
+      Can be set to an exact allele such as "HLA-A29:02".
+
+    HELD_OUT_AA = None
+      Automatically choose the held-out amino acid. Can be set to "W", "C",
+      etc.
+
+    MIN_TRAIN_ROWS = 1000
+    MIN_EVAL_ROWS = 100
+    MIN_TRAIN_PER_CLASS = 25
+    MIN_EVAL_PER_CLASS = 10
+      Candidate validity thresholds.
+
+    ENCODERS = ["ae", "onehot20", "blosum62_20"]
+      The three compared encoders.
+
+    PREPARE_ONLY = False
+      If True, only the split files are written; no training is run.
+
+HLA_19AA_Heldout_Analysis.ipynb
+  Separate analysis notebook for the broader held-out-AA experiment. It reads
+  the prepared split files and prediction CSVs from hla_19aa_heldout_results.
+
+  It produces:
+    dataset summaries
+    fold summaries
+    amino-acid composition tables
+    AUC/performance tables
+    ROC curves
+    confusion matrices
+    sequence logos for dataset/binders/non-binders/evaluation
+    sequence logos for ensemble-predicted binders and top-ranked predictions
+
+hla_19aa_heldout_run.py
+  Script version of the broader held-out-AA run. The notebook is easier to
+  inspect and edit, but this script contains the same core workflow.
+
+
+How the split decision is made
+------------------------------
+1. Read hla_only.txt.
+2. Keep only valid standard-amino-acid 9-mers.
+3. Group data by HLA allele.
+4. Collapse duplicate allele-peptide rows. If a duplicate has conflicting
+   labels, the positive label is kept.
+5. For every allele and every one of the 20 standard amino acids:
+     Train/CV set:
+       peptides from that allele where the held-out amino acid never appears.
+
+     Evaluation set:
+       peptides from that allele where the held-out amino acid appears at
+       least once, at any position.
+6. A candidate is valid only if it satisfies the threshold settings:
+     train rows >= 1000
+     evaluation rows >= 100
+     train positives >= 25
+     train negatives >= 25
+     evaluation positives >= 10
+     evaluation negatives >= 10
+7. The default candidate ranking chooses the valid split with the largest
+   allele total and then largest train/evaluation support.
+
+For the current data, this selected:
+  HLA-A29:02 with W held out.
+
+
+Selected split summary
+----------------------
+Source file:
+  hla_19aa_heldout_results/HLA_19AA_HLA-A29_02_holdout_W_TrainTest_9mers_Labeled.csv
+
+Train/CV split:
+  Rows: 15,621
+  Positives: 2,602
+  Negatives: 13,019
+  Positive rate: 16.66%
+  Constraint: no peptide contains W anywhere.
+
+Held-out evaluation split:
+  Rows: 1,590
+  Positives: 267
+  Negatives: 1,323
+  Positive rate: 16.79%
+  Constraint: every peptide contains W at least once.
+
+Full selected allele:
+  Rows: 17,211
+  Positives: 2,869
+  Negatives: 14,342
+  Positive rate: 16.67%
+
+Five-fold distribution:
+  Fold 0: 3,125 rows, 521 positive, 2,604 negative
+  Fold 1: 3,125 rows, 521 positive, 2,604 negative
+  Fold 2: 3,124 rows, 520 positive, 2,604 negative
+  Fold 3: 3,124 rows, 520 positive, 2,604 negative
+  Fold 4: 3,123 rows, 520 positive, 2,603 negative
+
+
+Result directory
+----------------
+hla_19aa_heldout_results/
+
+HLA_19AA_Split_Candidates.csv
+  All 51 alleles x 20 amino acids = 1,020 candidate splits.
+  Valid candidates: 352.
+  Sorted by the default ranking.
+
+  Top candidates begin with HLA-A29:02 because it has the largest usable
+  allele-level dataset.
+
+HLA_19AA_HLA-A29_02_holdout_W_TrainTest_9mers_Labeled.csv
+HLA_19AA_HLA-A29_02_holdout_W_TrainTest_9mers_Labeled.txt
+  The selected train/CV peptides. CSV is easier for notebooks; TXT is a simple
+  peptide label allele fold format.
+
+HLA_19AA_HLA-A29_02_holdout_W_Heldout_Evaluation_9mers_Labeled.csv
+HLA_19AA_HLA-A29_02_holdout_W_Heldout_Evaluation_9mers_Labeled.txt
+  The selected held-out evaluation peptides. Every peptide contains W.
+
+HLA_19AA_HLA-A29_02_holdout_W_Fold_Distribution.csv
+  The five-fold label balance table.
+
+hla_19aa_HLA-A29_02_holdout_W_ae_fold_0.pth through fold_4.pth
+hla_19aa_HLA-A29_02_holdout_W_onehot20_fold_0.pth through fold_4.pth
+hla_19aa_HLA-A29_02_holdout_W_blosum62_20_fold_0.pth through fold_4.pth
+  Trained fold-specific linear model weights for each encoder.
+
+HLA_19AA_CV_Binding_Predictions_HLA-A29_02_holdout_W__ae.csv
+HLA_19AA_CV_Binding_Predictions_HLA-A29_02_holdout_W__onehot20.csv
+HLA_19AA_CV_Binding_Predictions_HLA-A29_02_holdout_W__blosum62_20.csv
+  Out-of-fold predictions for the train/CV set.
+
+HLA_19AA_Heldout_Evaluation_HLA-A29_02_holdout_W__ae.csv
+HLA_19AA_Heldout_Evaluation_HLA-A29_02_holdout_W__onehot20.csv
+HLA_19AA_Heldout_Evaluation_HLA-A29_02_holdout_W__blosum62_20.csv
+  Ensemble predictions on the held-out W-containing evaluation peptides.
+  The ensemble probability is the mean of the five fold-model probabilities.
+
+HLA_19AA_HLA-A29_02_holdout_W_CV_Summary.csv
+  Summary metrics for out-of-fold CV predictions.
+
+HLA_19AA_HLA-A29_02_holdout_W_Heldout_Evaluation_Summary.csv
+  Summary metrics for held-out W-containing evaluation predictions.
+
+analysis_HLA-A29_02_holdout_W/
+  Output folder created by HLA_19AA_Heldout_Analysis.ipynb. It contains
+  detailed performance tables, ROC/confusion matrix PNGs, composition tables,
+  and sequence-logo PNGs.
+
+
+Encoders compared
+-----------------
+AE
+  Each amino acid is represented by a 512-dimensional centroid from the
+  unphosphorylated autoencoder. A 9-mer is represented by concatenating the
+  nine residue centroids, giving 9 x 512 = 4,608 features.
+
+onehot20
+  Standard 20-symbol one-hot encoding at each position. A 9-mer gives
+  9 x 20 = 180 features.
+
+blosum62_20
+  Each residue is encoded as its BLOSUM62 row. A 9-mer gives
+  9 x 20 = 180 features.
+
+All three encoders use exactly the same train/CV and held-out evaluation
+peptides.
+
+
+Important modeling detail
+-------------------------
+The linear model is initialized with zero weights and zero bias. This matters
+for one-hot encoding because W-specific columns are absent during training. If
+those columns were randomly initialized, predictions on W-containing peptides
+would partly depend on random unused weights. Zero initialization makes unseen
+one-hot residue columns neutral.
+
+
+Performance summary
+-------------------
+Threshold for confusion matrices:
+  probability >= 0.5 predicts binder.
+
+CV out-of-fold performance:
+  onehot20
+    AUC: 0.9889
+    Accuracy: 0.9728
+    Precision: 0.9195
+    Recall: 0.9170
+    F1: 0.9182
+    Confusion matrix: TN=12810, FP=209, FN=216, TP=2386
+
+  blosum62_20
+    AUC: 0.9883
+    Accuracy: 0.9723
+    Precision: 0.9138
+    Recall: 0.9208
+    F1: 0.9173
+    Confusion matrix: TN=12793, FP=226, FN=206, TP=2396
+
+  AE
+    AUC: 0.9833
+    Accuracy: 0.9642
+    Precision: 0.8876
+    Recall: 0.8985
+    F1: 0.8930
+    Confusion matrix: TN=12723, FP=296, FN=264, TP=2338
+
+Held-out W-containing evaluation performance:
+  onehot20
+    AUC: 0.9781
+    Accuracy: 0.9648
+    Precision: 0.8809
+    Recall: 0.9139
+    F1: 0.8971
+    Confusion matrix: TN=1290, FP=33, FN=23, TP=244
+
+  AE
+    AUC: 0.9770
+    Accuracy: 0.9579
+    Precision: 0.9065
+    Recall: 0.8352
+    F1: 0.8694
+    Confusion matrix: TN=1300, FP=23, FN=44, TP=223
+
+  blosum62_20
+    AUC: 0.9428
+    Accuracy: 0.8805
+    Precision: 0.5928
+    Recall: 0.9213
+    F1: 0.7214
+    Confusion matrix: TN=1154, FP=169, FN=21, TP=246
+
+
+Interpretation of performance
+-----------------------------
+1. The split is not label-shifted.
+   The training/CV positive rate is 16.66% and the held-out W evaluation
+   positive rate is 16.79%. This makes the held-out evaluation cleaner to
+   interpret because performance changes are not mostly caused by different
+   class balance.
+
+2. onehot20 performs best overall on the held-out W evaluation set.
+   It has the highest held-out AUC, best F1, and best accuracy. This is notable
+   because one-hot has no learned W weights in training. Its performance must
+   come from the other eight positions and learned HLA-A29:02 motif structure.
+
+3. AE is very competitive but more conservative at threshold 0.5.
+   AE has nearly the same held-out AUC as onehot20 and the highest precision,
+   but lower recall. It predicts fewer positives than onehot20 and misses more
+   true binders.
+
+4. BLOSUM62 has high recall but weaker precision on held-out W peptides.
+   It calls many more peptides positive, which keeps recall high but produces
+   substantially more false positives. Its held-out AUC also drops more than
+   the other two encoders.
+
+5. Top-ranked predictions are strongly enriched for true binders.
+   In the held-out W evaluation set:
+     AE top 1%: 16/16 binders
+     onehot20 top 1%: 16/16 binders
+     BLOSUM62 top 1%: 10/16 binders
+
+   Top 10%:
+     AE: 151/159 binders, 94.97% positive
+     onehot20: 154/159 binders, 96.86% positive
+     BLOSUM62: 125/159 binders, 78.62% positive
+
+6. The broad conclusion from the current run is that held-out W-containing
+   peptides remain highly predictable for HLA-A29:02, especially with one-hot
+   and AE encodings. This likely reflects strong positional motif information
+   in the other residues, rather than direct learning of W-specific weights.
+
+
+Analysis outputs
+----------------
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_Detailed_Performance.csv
+  Detailed AUC, accuracy, precision, recall, specificity, F1, and confusion
+  matrix counts for CV and held-out evaluation.
+
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_CV_ROC.png
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_Heldout_Ensemble_ROC.png
+  ROC curves for CV and held-out evaluation.
+
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_CV_Confusion_Matrices.png
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_Heldout_Ensemble_Confusion_Matrices.png
+  Confusion matrix figures.
+
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_Dataset_Sequence_Logos.png
+  Sequence logos for selected allele all peptides, train/test all, train/test
+  binders, train/test non-binders, held-out evaluation all, held-out evaluation
+  binders, and held-out evaluation non-binders.
+
+analysis_HLA-A29_02_holdout_W/*_Ensemble_And_Top_Prediction_Logos.png
+  Encoder-specific sequence logos for evaluation peptides, true binders, true
+  non-binders, predicted binders, top 1%, top 1-10%, and top 10%.
+
+analysis_HLA-A29_02_holdout_W/HLA-A29_02_holdout_W_Top_Prediction_Slices.csv
+  Quantitative summary of top prediction slices.
+
+
+Recommended next checks
+-----------------------
+1. Compare this broad W-held-out result to the anchor-position run.
+   The current result allows W anywhere in evaluation; the anchor run asks a
+   narrower question about W specifically at P2/P9.
+
+2. Inspect the sequence-logo PNGs to identify whether model confidence is
+   dominated by non-W motif positions.
+
+3. If using the one-hot model for biological interpretation, remember that W
+   positions are not learned directly in this split. Strong performance means
+   the model can rank peptides from the context around W, not that it learned a
+   W coefficient.

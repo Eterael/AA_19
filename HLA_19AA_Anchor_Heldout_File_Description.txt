@@ -1,0 +1,357 @@
+HLA 19-AA ANCHOR-POSITION HELD-OUT RUN: FILE DESCRIPTION AND RESULT NOTES
+========================================================================
+
+Purpose
+-------
+This run tests a stricter variant of the held-out amino-acid question:
+
+  Can the model train on peptides that never contain a given amino acid, then
+  predict binding for same-allele peptides where that amino acid appears at
+  anchor positions P2 and/or P9?
+
+The selected default split is:
+  Allele: HLA-A29:02
+  Held-out amino acid: W
+  Anchor positions: P2 and P9
+  Evaluation mode: anchor_only
+
+This means:
+  Training/CV peptides contain no W anywhere.
+  Evaluation peptides contain W at P2 and/or P9.
+  In anchor_only mode, evaluation peptides contain W only at P2/P9 and nowhere
+  else.
+
+
+Main code files
+---------------
+HLA_19AA_Anchor_Heldout_Run.ipynb
+  Main run notebook for the anchor-position experiment. It prepares the split,
+  trains five folds for each encoder, predicts the held-out anchor evaluation
+  set with a five-model ensemble, and writes CSV summaries.
+
+  Important configuration variables:
+    ANCHOR_POSITIONS = (2, 9)
+      P2 and P9 are 1-based peptide positions.
+
+    EVAL_POSITION_MODE = "anchor_only"
+      Evaluation peptides must contain the held-out amino acid at P2 and/or
+      P9, and all occurrences of the held-out amino acid must be at those
+      anchor positions.
+
+    EVAL_POSITION_MODE = "anchor_contains"
+      Alternative looser mode. Evaluation peptides must contain the held-out
+      amino acid at P2 and/or P9, but they may also contain the same amino acid
+      elsewhere.
+
+    CANDIDATE_RANKING = "train_eval_total"
+      Default ranking. Chooses the valid candidate with the largest
+      train/test + anchor-evaluation size.
+
+    CANDIDATE_RANKING = "eval_rows"
+      Alternative ranking. Chooses the candidate with the largest anchor
+      evaluation set.
+
+    CANDIDATE_RANKING = "balanced_positive_support"
+      Alternative ranking. Chooses for stronger positive support in both
+      train and evaluation.
+
+    ALLELE = None
+    HELD_OUT_AA = None
+      Leave unset to automatically select the best valid candidate according
+      to CANDIDATE_RANKING. Set manually to force a specific split.
+
+    ENCODERS = ["ae", "onehot20", "blosum62_20"]
+      The three compared encoders.
+
+HLA_19AA_Anchor_Heldout_Analysis.ipynb
+  Separate analysis notebook for the anchor-position experiment. It reads from
+  hla_19aa_anchor_heldout_results by default.
+
+  It produces the same analysis types as the broader held-out run:
+    dataset summaries
+    fold summaries
+    amino-acid composition tables
+    AUC/performance tables
+    ROC curves
+    confusion matrices
+    sequence logos
+    top prediction slice summaries
+
+
+Input files
+-----------
+hla_only.txt
+  Main HLA-only dataset. Each valid row has:
+    peptide label allele
+
+  The run keeps standard-amino-acid 9-mers only.
+
+peptide_autoencoder_v3_512.pth
+  Unphosphorylated autoencoder weights used for the AE encoder.
+
+peptide_autoencoder_v3_512_p.pth
+  Present but not used.
+
+peptide_rotamers/
+  Needed to recompute AE residue centroids if training the AE encoder from
+  scratch.
+
+
+How the anchor split decision is made
+-------------------------------------
+1. Read hla_only.txt.
+2. Keep only valid standard-amino-acid 9-mers.
+3. Group data by HLA allele.
+4. Collapse duplicate allele-peptide rows. If duplicates conflict, keep the
+   positive label.
+5. For every allele and every one of the 20 standard amino acids:
+     Train/CV set:
+       same-allele peptides where the held-out amino acid never appears.
+
+     Evaluation set:
+       same-allele peptides where the held-out amino acid appears at P2 and/or
+       P9.
+
+       If EVAL_POSITION_MODE = "anchor_only":
+         all occurrences of the held-out amino acid must be at P2/P9.
+
+       If EVAL_POSITION_MODE = "anchor_contains":
+         the held-out amino acid must appear at P2/P9, but may also occur at
+         other positions.
+6. A candidate is valid only if it satisfies:
+     train rows >= 1000
+     evaluation rows >= 100
+     train positives >= 25
+     train negatives >= 25
+     evaluation positives >= 10
+     evaluation negatives >= 10
+7. The default candidate ranking is train_eval_total.
+
+
+Selected default anchor split
+-----------------------------
+Output directory:
+  hla_19aa_anchor_heldout_results/
+
+Selected split:
+  Allele: HLA-A29:02
+  Held-out amino acid: W
+  Anchor positions: P2,P9
+  Evaluation mode: anchor_only
+  Candidate ranking: train_eval_total
+
+Train/CV split:
+  Rows: 15,621
+  Positives: 2,602
+  Negatives: 13,019
+  Constraint: no peptide contains W anywhere.
+
+Anchor evaluation split:
+  Rows: 320
+  Positives: 46
+  Negatives: 274
+  Constraint: each peptide contains W at P2 and/or P9 only.
+
+Anchor position details:
+  Peptides with W at P2: 184
+  Peptides with W at P9: 140
+  Peptides with W at both P2 and P9: 4
+  Peptides with W outside P2/P9: 0
+  Anchor-only W peptides as fraction of all W-containing HLA-A29:02 peptides:
+    0.2013
+
+Five-fold distribution:
+  Fold 0: 3,125 rows, 521 positive, 2,604 negative
+  Fold 1: 3,125 rows, 521 positive, 2,604 negative
+  Fold 2: 3,124 rows, 520 positive, 2,604 negative
+  Fold 3: 3,124 rows, 520 positive, 2,604 negative
+  Fold 4: 3,123 rows, 520 positive, 2,603 negative
+
+
+Result directory
+----------------
+hla_19aa_anchor_heldout_results/
+
+HLA_19AA_Anchor_Position_Split_Candidates.csv
+  All 51 alleles x 20 amino acids = 1,020 candidate splits.
+  Valid candidates under the strict default anchor_only setting: 130.
+  Sorted by CANDIDATE_RANKING.
+
+HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_TrainTest_9mers_Labeled.csv
+HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_TrainTest_9mers_Labeled.txt
+  Selected train/CV peptides. No peptide contains W.
+
+HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_Heldout_Evaluation_9mers_Labeled.csv
+HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_Heldout_Evaluation_9mers_Labeled.txt
+  Selected anchor held-out evaluation peptides. Each peptide contains W at P2
+  and/or P9 only.
+
+HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_Fold_Distribution.csv
+  Fold label-balance table.
+
+Trained model and prediction outputs:
+  hla_19aa_HLA-A29_02_holdout_W_anchor2_9_only_ae_fold_0.pth through fold_4.pth
+  hla_19aa_HLA-A29_02_holdout_W_anchor2_9_only_onehot20_fold_0.pth through fold_4.pth
+  hla_19aa_HLA-A29_02_holdout_W_anchor2_9_only_blosum62_20_fold_0.pth through fold_4.pth
+
+  HLA_19AA_CV_Binding_Predictions_HLA-A29_02_holdout_W_anchor2_9_only__*.csv
+  HLA_19AA_Heldout_Evaluation_HLA-A29_02_holdout_W_anchor2_9_only__*.csv
+  HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_CV_Summary.csv
+  HLA_19AA_HLA-A29_02_holdout_W_anchor2_9_only_Heldout_Evaluation_Summary.csv
+
+analysis_HLA-A29_02_holdout_W_anchor2_9_only/
+  Analysis output folder created by HLA_19AA_Anchor_Heldout_Analysis.ipynb.
+  It contains detailed performance CSVs, ROC/confusion matrix PNGs, sequence
+  logos, amino-acid composition tables, and top-prediction slice summaries.
+
+
+Candidate analysis
+------------------
+Under the strict default anchor_only mode, the top valid candidates include:
+
+1. HLA-A29:02, held-out W
+   Train rows: 15,621
+   Eval rows: 320
+   Eval positives: 46
+   Eval negatives: 274
+   This is selected by train_eval_total because it has the largest combined
+   training plus anchor-evaluation support.
+
+2. HLA-A29:02, held-out M
+   Train rows: 14,063
+   Eval rows: 657
+   Eval positives: 150
+   Eval negatives: 507
+   This has a larger anchor evaluation set than W, but a smaller combined
+   total than W.
+
+3. HLA-A29:02, held-out Y
+   Train rows: 11,188
+   Eval rows: 2,281
+   Eval positives: 1,703
+   Eval negatives: 578
+   This has the largest anchor evaluation set among the top candidates, but
+   only 131 positive training peptides because HLA-A29:02 binders are strongly
+   enriched for Y. It is biologically interesting, but the train-positive
+   support is much weaker.
+
+4. HLA-A29:02, held-out F
+   Train rows: 11,536
+   Eval rows: 1,116
+   Eval positives: 368
+   Eval negatives: 748
+   This is a strong alternative if a larger anchor evaluation set is desired.
+
+The default W split is a conservative choice for training-set size and class
+support. If the priority is a larger P2/P9 evaluation set, use:
+  CANDIDATE_RANKING = "eval_rows"
+
+If the priority is avoiding weak positive support in either train or
+evaluation, use:
+  CANDIDATE_RANKING = "balanced_positive_support"
+
+
+Comparison to the broader held-out run
+--------------------------------------
+The broader held-out run evaluates all HLA-A29:02 W-containing peptides:
+  Evaluation rows: 1,590
+  Positives: 267
+  Negatives: 1,323
+
+The anchor_only run evaluates only the subset where W is confined to P2/P9:
+  Evaluation rows: 320
+  Positives: 46
+  Negatives: 274
+
+So the anchor-position experiment is stricter and smaller. It asks whether the
+models can handle W specifically at common anchor positions, not merely whether
+they can rank peptides that contain W somewhere.
+
+
+Performance summary
+-------------------
+Threshold for confusion matrices:
+  probability >= 0.5 predicts binder.
+
+CV out-of-fold performance:
+  onehot20
+    AUC: 0.9889
+    Accuracy: 0.9728
+    Precision: 0.9195
+    Recall: 0.9170
+    F1: 0.9182
+    Confusion matrix: TN=12810, FP=209, FN=216, TP=2386
+
+  blosum62_20
+    AUC: 0.9883
+    Accuracy: 0.9723
+    Precision: 0.9138
+    Recall: 0.9208
+    F1: 0.9173
+    Confusion matrix: TN=12793, FP=226, FN=206, TP=2396
+
+  AE
+    AUC: 0.9833
+    Accuracy: 0.9642
+    Precision: 0.8876
+    Recall: 0.8985
+    F1: 0.8930
+    Confusion matrix: TN=12723, FP=296, FN=264, TP=2338
+
+Anchor-only held-out evaluation performance:
+  onehot20
+    AUC: 0.9925
+    Accuracy: 0.9750
+    Precision: 0.9130
+    Recall: 0.9130
+    F1: 0.9130
+    Confusion matrix: TN=270, FP=4, FN=4, TP=42
+
+  AE
+    AUC: 0.9867
+    Accuracy: 0.9500
+    Precision: 1.0000
+    Recall: 0.6522
+    F1: 0.7895
+    Confusion matrix: TN=274, FP=0, FN=16, TP=30
+
+  blosum62_20
+    AUC: 0.8489
+    Accuracy: 0.6125
+    Precision: 0.2651
+    Recall: 0.9565
+    F1: 0.4151
+    Confusion matrix: TN=152, FP=122, FN=2, TP=44
+
+
+Interpretation of anchor-position results
+-----------------------------------------
+1. onehot20 is strongest on the strict P2/P9 W-held-out evaluation.
+   It has the best AUC, accuracy, and F1, with only 4 false positives and
+   4 false negatives among 320 anchor-evaluation peptides.
+
+2. AE ranks anchor-held-out peptides very well but is conservative at 0.5.
+   Its AUC is high and it has zero false positives, but it misses 16 of the
+   46 true binders at the default threshold.
+
+3. BLOSUM62 over-calls binders in the anchor setting.
+   It recovers 44 of 46 true binders, but produces 122 false positives. This
+   gives high recall but weak precision and accuracy.
+
+4. Compared with the broader W-held-out evaluation, the anchor-only W set is
+   smaller and stricter, but onehot20 and AE still rank peptides strongly. This
+   suggests that HLA-A29:02 motif context outside the unseen W residue carries
+   substantial predictive information.
+
+5. Top-ranked predictions are highly enriched for true binders for onehot20
+   and AE:
+     AE top 1%: 4/4 binders
+     AE top 10%: 32/32 binders
+     onehot20 top 1%: 4/4 binders
+     onehot20 top 10%: 32/32 binders
+     BLOSUM62 top 1%: 1/4 binders
+     BLOSUM62 top 10%: 12/32 binders
+
+6. Sequence logos in the analysis folder should be used to inspect whether
+   these top-ranked anchor peptides share recognizable HLA-A29:02 motif
+   structure despite W never appearing in training.
