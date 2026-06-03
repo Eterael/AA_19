@@ -1,0 +1,10 @@
+Dataset,Rows,Positives,Negatives,Positive_Rate,Unique_Peptides,Epitope_XLSX_Positives,Same_Allele_Negatives,Other_Allele_Negatives
+All labeled peptides,19296,9648,9648,0.5,19296,9648,1110,8538
+Train/CV all,17154,8577,8577,0.5,17154,8577,1032,7545
+Train/CV binders,8577,8577,0,1.0,8577,8577,0,0
+Train/CV non-binders,8577,0,8577,0.0,8577,0,1032,7545
+Held-out evaluation all,2142,1071,1071,0.5,2142,1071,78,993
+Held-out evaluation binders,1071,1071,0,1.0,1071,1071,0,0
+Held-out evaluation non-binders,1071,0,1071,0.0,1071,0,78,993
+Held-out eval same-allele negatives,78,0,78,0.0,78,0,78,0
+Held-out eval other-allele negatives,993,0,993,0.0,993,0,0,993

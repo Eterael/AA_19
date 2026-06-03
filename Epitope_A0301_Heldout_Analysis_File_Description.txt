@@ -1,0 +1,68 @@
+EPITOPE A03:01 HELD-OUT ANALYSIS: FILE DESCRIPTION
+==================================================
+
+Purpose
+-------
+This notebook analyzes the balanced epitope A03:01 held-out-AA network run.
+It should be run after Epitope_A0301_Heldout_Training_Run.ipynb has produced
+prediction CSVs and model summaries.
+
+Input directory
+---------------
+epitope_a0301_heldout_results/
+  Contains the balanced train/CV split, held-out evaluation split, trained
+  model weights, CV prediction CSVs, held-out ensemble prediction CSVs, and
+  model summary CSVs.
+
+Main analysis notebook
+----------------------
+Epitope_A0301_Heldout_Analysis.ipynb
+  Recreates and displays:
+    dataset/source summaries
+    AUC and threshold metrics
+    ROC curves
+    confusion matrices
+    sequence logos for dataset, binders, non-binders, and evaluation sets
+    sequence logos for ensemble predicted binders/non-binders
+    sequence logos and summaries for top 1%, top 1-10%, and top 10% predictions
+
+Generated analysis directory
+----------------------------
+epitope_a0301_heldout_results/analysis_HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W/
+
+Important files:
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Dataset_Summary.csv
+    Dataset sizes, positive/negative counts, and negative source breakdown.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Detailed_Performance.csv
+    CV and held-out ensemble AUC, confusion-matrix counts, accuracy,
+    precision, recall, and F1 for AE, one-hot, and BLOSUM62.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_CV_ROC.svg
+    ROC curves for CV out-of-fold predictions.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Heldout_Ensemble_ROC.svg
+    ROC curves for held-out ensemble predictions.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_CV_Confusion_Matrices.svg
+    CV confusion matrices at threshold 0.5.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Heldout_Ensemble_Confusion_Matrices.svg
+    Held-out ensemble confusion matrices at threshold 0.5.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Dataset_Sequence_Logos.svg
+    Sequence logos for all selected peptides, train/CV binders/non-binders,
+    held-out evaluation binders/non-binders, and same-/other-allele negatives.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_*_Prediction_Sequence_Logos.svg
+    Per-encoder sequence logos for evaluation peptides, predicted binders,
+    predicted non-binders, top 1%, top 1-10%, and top 10% predictions.
+
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Top_Prediction_Slices.csv
+    Counts and probability summaries for top-ranked prediction slices.
+
+Current held-out ensemble AUCs
+------------------------------
+onehot20: 0.8549
+blosum62_20: 0.8444
+ae: 0.8398

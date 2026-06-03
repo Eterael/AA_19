@@ -57,6 +57,10 @@ Run order
    split. Step 2 trains AE, one-hot, and BLOSUM62 models. Step 3 displays the
    summary CSVs after training.
 
+4. Run Epitope_A0301_Heldout_Analysis.ipynb to generate and view sequence
+   logos, ROC curves, confusion matrices, top-prediction slice analyses, and
+   detailed performance tables.
+
 Requirements for Step 2
 -----------------------
 The full network-training cell needs a Jupyter kernel with torch and
@@ -92,3 +96,7 @@ epitope_a0301_heldout_results/*CV_Summary.csv
 
 epitope_a0301_heldout_results/*Heldout_Evaluation_Summary.csv
   Written after Step 2 training finishes. Contains held-out evaluation metrics.
+
+Epitope_A0301_Heldout_Analysis.ipynb
+  Analysis notebook for the trained run. It creates the analysis_* directory
+  with SVG figures and CSV summaries.

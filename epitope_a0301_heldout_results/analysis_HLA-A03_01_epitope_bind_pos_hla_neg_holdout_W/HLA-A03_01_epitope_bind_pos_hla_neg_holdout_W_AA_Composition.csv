@@ -1,0 +1,181 @@
+Dataset,AA,Count,Frequency
+All labeled peptides,A,13188,0.07593974571586512
+All labeled peptides,C,1976,0.011378293716602175
+All labeled peptides,D,6986,0.0402271052146674
+All labeled peptides,E,8661,0.049872166943062464
+All labeled peptides,F,7597,0.0437453934033536
+All labeled peptides,G,10523,0.060594020637552974
+All labeled peptides,H,4147,0.023879445365763773
+All labeled peptides,I,9875,0.05686267735397089
+All labeled peptides,K,13767,0.07927377003869542
+All labeled peptides,L,18364,0.10574442601805786
+All labeled peptides,M,4084,0.02351667587985996
+All labeled peptides,N,6321,0.03639787175234936
+All labeled peptides,P,8265,0.047591901603095635
+All labeled peptides,Q,6346,0.03654182789754929
+All labeled peptides,R,10269,0.05913142620232172
+All labeled peptides,S,11906,0.0685576745900129
+All labeled peptides,T,9925,0.05715058964437074
+All labeled peptides,V,11975,0.06895499355076469
+All labeled peptides,W,2310,0.01330154781647319
+All labeled peptides,Y,7179,0.04133844665561084
+Train/CV all,A,11949,0.07739691422797404
+Train/CV all,C,1769,0.01145829285038799
+Train/CV all,D,6281,0.04068374075369528
+Train/CV all,E,7803,0.05054214760405736
+Train/CV all,F,6735,0.043624421903540475
+Train/CV all,G,9368,0.060679077118391565
+Train/CV all,H,3679,0.02382988094775433
+Train/CV all,I,8955,0.05800396409000816
+Train/CV all,K,12519,0.08108895884341845
+Train/CV all,L,16645,0.10781418004223181
+Train/CV all,M,3637,0.023557835555037373
+Train/CV all,N,5710,0.03698521886699571
+Train/CV all,P,7441,0.04819737540968741
+Train/CV all,Q,5656,0.03663544621921677
+Train/CV all,R,9198,0.05957794100501341
+Train/CV all,S,10731,0.06950759783918231
+Train/CV all,T,8956,0.05801044136126333
+Train/CV all,V,10900,0.0706022566813053
+Train/CV all,W,0,0.0
+Train/CV all,Y,6454,0.04180430868083894
+Train/CV binders,A,5412,0.0701099840659127
+Train/CV binders,C,662,0.008575907141839286
+Train/CV binders,D,2020,0.02616817587086912
+Train/CV binders,E,2475,0.03206249271306984
+Train/CV binders,F,3809,0.04934385242185172
+Train/CV binders,G,3877,0.050224761312554246
+Train/CV binders,H,1914,0.024794994364774007
+Train/CV binders,I,4342,0.05624862357985828
+Train/CV binders,K,7983,0.10341611285997435
+Train/CV binders,L,9064,0.11741997331364243
+Train/CV binders,M,1946,0.025209539725104608
+Train/CV binders,N,2511,0.03252885624344176
+Train/CV binders,P,3740,0.048449988988638865
+Train/CV binders,Q,2563,0.033202492453978986
+Train/CV binders,R,4841,0.06271294029251356
+Train/CV binders,S,5662,0.07334861969349553
+Train/CV binders,T,4803,0.062220667677120985
+Train/CV binders,V,5417,0.07017475677846437
+Train/CV binders,W,0,0.0
+Train/CV binders,Y,4152,0.05378726050289534
+Train/CV non-binders,A,6537,0.08468384439003536
+Train/CV non-binders,C,1107,0.014340678558936691
+Train/CV non-binders,D,4261,0.055199305636521444
+Train/CV non-binders,E,5328,0.06902180249504489
+Train/CV non-binders,F,2926,0.03790499138522923
+Train/CV non-binders,G,5491,0.07113339292422888
+Train/CV non-binders,H,1765,0.022864767530734652
+Train/CV non-binders,I,4613,0.05975930460015805
+Train/CV non-binders,K,4536,0.05876180482686254
+Train/CV non-binders,L,7581,0.0982083867708212
+Train/CV non-binders,M,1691,0.02190613138497014
+Train/CV non-binders,N,3199,0.04144158149054966
+Train/CV non-binders,P,3701,0.04794476183073595
+Train/CV non-binders,Q,3093,0.04006839998445455
+Train/CV non-binders,R,4357,0.05644294171751325
+Train/CV non-binders,S,5069,0.0656665759848691
+Train/CV non-binders,T,4153,0.05380021504540567
+Train/CV non-binders,V,5483,0.07102975658414623
+Train/CV non-binders,W,0,0.0
+Train/CV non-binders,Y,2302,0.02982135685878253
+Held-out evaluation all,A,1239,0.06427015250544663
+Held-out evaluation all,C,207,0.010737628384687208
+Held-out evaluation all,D,705,0.03657018362900716
+Held-out evaluation all,E,858,0.044506691565515094
+Held-out evaluation all,F,862,0.04471418196908393
+Held-out evaluation all,G,1155,0.05991285403050109
+Held-out evaluation all,H,468,0.02427637721755369
+Held-out evaluation all,I,920,0.047722792820832034
+Held-out evaluation all,K,1248,0.0647370059134765
+Held-out evaluation all,L,1719,0.08916900093370682
+Held-out evaluation all,M,447,0.023187052598817304
+Held-out evaluation all,N,611,0.03169415914513954
+Held-out evaluation all,P,824,0.04274302313518
+Held-out evaluation all,Q,690,0.03579209461562403
+Held-out evaluation all,R,1071,0.05555555555555555
+Held-out evaluation all,S,1175,0.06095030604834526
+Held-out evaluation all,T,969,0.05026455026455026
+Held-out evaluation all,V,1075,0.05576304595912439
+Held-out evaluation all,W,2310,0.11982570806100218
+Held-out evaluation all,Y,725,0.03760763564685133
+Held-out evaluation binders,A,553,0.05737109658678286
+Held-out evaluation binders,C,73,0.007573399730262475
+Held-out evaluation binders,D,270,0.028011204481792718
+Held-out evaluation binders,E,297,0.03081232492997199
+Held-out evaluation binders,F,476,0.04938271604938271
+Held-out evaluation binders,G,498,0.0516651104886399
+Held-out evaluation binders,H,241,0.02500259363004461
+Held-out evaluation binders,I,418,0.043365494345886504
+Held-out evaluation binders,K,752,0.07801639174188194
+Held-out evaluation binders,L,941,0.09762423487913684
+Held-out evaluation binders,M,266,0.027596223674655047
+Held-out evaluation binders,N,286,0.029671127710343397
+Held-out evaluation binders,P,380,0.03942317667807864
+Held-out evaluation binders,Q,340,0.03527336860670194
+Held-out evaluation binders,R,584,0.0605871978420998
+Held-out evaluation binders,S,606,0.06286959228135698
+Held-out evaluation binders,T,534,0.05539993775287893
+Held-out evaluation binders,V,511,0.053013798111837325
+Held-out evaluation binders,W,1182,0.12262682850918145
+Held-out evaluation binders,Y,431,0.04471418196908393
+Held-out evaluation non-binders,A,686,0.07116920842411038
+Held-out evaluation non-binders,C,134,0.013901857039111941
+Held-out evaluation non-binders,D,435,0.0451291627762216
+Held-out evaluation non-binders,E,561,0.0582010582010582
+Held-out evaluation non-binders,F,386,0.040045647888785146
+Held-out evaluation non-binders,G,657,0.06816059757236227
+Held-out evaluation non-binders,H,227,0.023550160805062767
+Held-out evaluation non-binders,I,502,0.05208009129577757
+Held-out evaluation non-binders,K,496,0.051457620085071064
+Held-out evaluation non-binders,L,778,0.08071376698827679
+Held-out evaluation non-binders,M,181,0.018777881522979562
+Held-out evaluation non-binders,N,325,0.03371719057993568
+Held-out evaluation non-binders,P,444,0.046062869592281355
+Held-out evaluation non-binders,Q,350,0.03631082062454612
+Held-out evaluation non-binders,R,487,0.05052391326901131
+Held-out evaluation non-binders,S,569,0.05903101981533354
+Held-out evaluation non-binders,T,435,0.0451291627762216
+Held-out evaluation non-binders,V,564,0.05851229380641145
+Held-out evaluation non-binders,W,1128,0.1170245876128229
+Held-out evaluation non-binders,Y,294,0.030501089324618737
+Held-out eval same-allele negatives,A,61,0.0868945868945869
+Held-out eval same-allele negatives,C,11,0.01566951566951567
+Held-out eval same-allele negatives,D,30,0.042735042735042736
+Held-out eval same-allele negatives,E,49,0.0698005698005698
+Held-out eval same-allele negatives,F,24,0.03418803418803419
+Held-out eval same-allele negatives,G,44,0.06267806267806268
+Held-out eval same-allele negatives,H,25,0.03561253561253561
+Held-out eval same-allele negatives,I,34,0.04843304843304843
+Held-out eval same-allele negatives,K,29,0.04131054131054131
+Held-out eval same-allele negatives,L,57,0.0811965811965812
+Held-out eval same-allele negatives,M,12,0.017094017094017096
+Held-out eval same-allele negatives,N,25,0.03561253561253561
+Held-out eval same-allele negatives,P,25,0.03561253561253561
+Held-out eval same-allele negatives,Q,23,0.03276353276353276
+Held-out eval same-allele negatives,R,32,0.045584045584045586
+Held-out eval same-allele negatives,S,52,0.07407407407407407
+Held-out eval same-allele negatives,T,27,0.038461538461538464
+Held-out eval same-allele negatives,V,39,0.05555555555555555
+Held-out eval same-allele negatives,W,81,0.11538461538461539
+Held-out eval same-allele negatives,Y,22,0.03133903133903134
+Held-out eval other-allele negatives,A,625,0.06993398232068927
+Held-out eval other-allele negatives,C,123,0.013763007720711649
+Held-out eval other-allele negatives,D,405,0.045317220543806644
+Held-out eval other-allele negatives,E,512,0.05728991831710865
+Held-out eval other-allele negatives,F,362,0.040505762560143224
+Held-out eval other-allele negatives,G,613,0.06859124986013204
+Held-out eval other-allele negatives,H,202,0.022602663086046772
+Held-out eval other-allele negatives,I,468,0.05236656596173213
+Held-out eval other-allele negatives,K,467,0.05225467159001902
+Held-out eval other-allele negatives,L,721,0.08067584200514714
+Held-out eval other-allele negatives,M,169,0.018910148819514378
+Held-out eval other-allele negatives,N,300,0.03356831151393085
+Held-out eval other-allele negatives,P,419,0.046883741747790086
+Held-out eval other-allele negatives,Q,327,0.036589459550184625
+Held-out eval other-allele negatives,R,455,0.050911939129461785
+Held-out eval other-allele negatives,S,517,0.05784939017567416
+Held-out eval other-allele negatives,T,408,0.045652903658945955
+Held-out eval other-allele negatives,V,525,0.058744545149378984
+Held-out eval other-allele negatives,W,1047,0.11715340718361866
+Held-out eval other-allele negatives,Y,272,0.03043526910596397

@@ -1,0 +1,7 @@
+{
+  "split_token": "HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W",
+  "analysis_dir": "epitope_a0301_heldout_results/analysis_HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W",
+  "dataset_rows": 9,
+  "performance_rows": 6,
+  "top_rows": 9
+}
