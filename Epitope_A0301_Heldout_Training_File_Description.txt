@@ -18,7 +18,7 @@ The combined labeled dataset is then split with the same held-out-AA logic:
 Default split
 -------------
 Allele: HLA-A03:01
-Held-out amino acid: W
+Held-out amino acid: R
 Positive source: canonical 9-mers from epitope_table_export_1779969300.xlsx
 Negative source: unique label-0 9-mers from hla_only.txt
 Negative sampling: 1:1 positive/negative ratio in train/CV and evaluation
@@ -34,17 +34,17 @@ Selected non-binders: 9648
 Selected same-allele HLA-A03:01 non-binders: 1110
 Selected other-allele non-binders: 8538
 
-Train/CV rows: 17154
-Train/CV positives: 8577
-Train/CV negatives: 8577
-Train/CV same-allele negatives: 1032
-Train/CV other-allele negatives: 7545
+Train/CV rows: 11046
+Train/CV positives: 5523
+Train/CV negatives: 5523
+Train/CV same-allele negatives: 682
+Train/CV other-allele negatives: 4841
 
-Held-out evaluation rows: 2142
-Held-out evaluation positives: 1071
-Held-out evaluation negatives: 1071
-Held-out evaluation same-allele negatives: 78
-Held-out evaluation other-allele negatives: 993
+Held-out evaluation rows: 8250
+Held-out evaluation positives: 4125
+Held-out evaluation negatives: 4125
+Held-out evaluation same-allele negatives: 428
+Held-out evaluation other-allele negatives: 3697
 
 Run order
 ---------
@@ -99,4 +99,4 @@ epitope_a0301_heldout_results/*Heldout_Evaluation_Summary.csv
 
 Epitope_A0301_Heldout_Analysis.ipynb
   Analysis notebook for the trained run. It creates the analysis_* directory
-  with SVG figures and CSV summaries.
+  with anchor-style PNG figures and CSV summaries.

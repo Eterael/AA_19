@@ -51,7 +51,7 @@ PROJECT_DIR = Path(".")
 DEFAULT_EPITOPE_CSV = PROJECT_DIR / "epitope_table_new_data_results" / "Epitope_Table_Canonical_9mers.csv"
 DEFAULT_OUTPUT_DIR = PROJECT_DIR / "epitope_a0301_heldout_results"
 DEFAULT_ALLELE = "HLA-A03:01"
-DEFAULT_HELD_OUT_AA = "W"
+DEFAULT_HELD_OUT_AA = "R"
 
 
 def normalize_allele(value: str) -> str:

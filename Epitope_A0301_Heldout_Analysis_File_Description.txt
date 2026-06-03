@@ -7,6 +7,10 @@ This notebook analyzes the balanced epitope A03:01 held-out-AA network run.
 It should be run after Epitope_A0301_Heldout_Training_Run.ipynb has produced
 prediction CSVs and model summaries.
 
+The layout, tables, ROC panels, confusion-matrix panels, and matplotlib
+sequence-logo figures are intentionally matched to the style used in
+HLA_19AA_Anchor_Heldout_Analysis.ipynb.
+
 Input directory
 ---------------
 epitope_a0301_heldout_results/
@@ -28,41 +32,46 @@ Epitope_A0301_Heldout_Analysis.ipynb
 
 Generated analysis directory
 ----------------------------
-epitope_a0301_heldout_results/analysis_HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W/
+epitope_a0301_heldout_results/analysis_HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R/
 
 Important files:
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Dataset_Summary.csv
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_Dataset_Summary.csv
     Dataset sizes, positive/negative counts, and negative source breakdown.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Detailed_Performance.csv
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_Detailed_Performance.csv
     CV and held-out ensemble AUC, confusion-matrix counts, accuracy,
     precision, recall, and F1 for AE, one-hot, and BLOSUM62.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_CV_ROC.svg
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_CV_ROC.png
     ROC curves for CV out-of-fold predictions.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Heldout_Ensemble_ROC.svg
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_Heldout_Ensemble_ROC.png
     ROC curves for held-out ensemble predictions.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_CV_Confusion_Matrices.svg
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_CV_Confusion_Matrices.png
     CV confusion matrices at threshold 0.5.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Heldout_Ensemble_Confusion_Matrices.svg
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_Heldout_Ensemble_Confusion_Matrices.png
     Held-out ensemble confusion matrices at threshold 0.5.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Dataset_Sequence_Logos.svg
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_Dataset_Sequence_Logos.png
     Sequence logos for all selected peptides, train/CV binders/non-binders,
     held-out evaluation binders/non-binders, and same-/other-allele negatives.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_*_Prediction_Sequence_Logos.svg
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_*_Prediction_Sequence_Logos.png
     Per-encoder sequence logos for evaluation peptides, predicted binders,
     predicted non-binders, top 1%, top 1-10%, and top 10% predictions.
 
-  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_W_Top_Prediction_Slices.csv
+  HLA-A03_01_epitope_bind_pos_hla_neg_holdout_R_Top_Prediction_Slices.csv
     Counts and probability summaries for top-ranked prediction slices.
 
-Current held-out ensemble AUCs
-------------------------------
-onehot20: 0.8549
-blosum62_20: 0.8444
-ae: 0.8398
+Current held-out split
+----------------------
+Held-out amino acid: R
+Train/CV rows: 11046
+Held-out evaluation rows: 8250
+
+The R-specific AUC, ROC, confusion-matrix, and top-prediction outputs are
+created after running the R training cells in
+Epitope_A0301_Heldout_Training_Run.ipynb. Older W outputs may still be present
+from the previous run, but R is now the default split.
