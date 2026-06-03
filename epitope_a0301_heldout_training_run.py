@@ -1,9 +1,10 @@
 """Train held-out-AA binding models on new epitope positives plus A03:01 negatives.
 
 The new XLSX epitope export is treated as an all-binder positive set for
-HLA-A03:01. Non-binders are taken from hla_only.txt for the same allele. The
-combined labeled dataset is then split by held-out amino acid and trained with
-the same AE, one-hot, and BLOSUM62 linear networks as the HLA-only runs.
+HLA-A03:01. Non-binders are unique label-0 peptides from hla_only.txt. Same
+allele A03:01 negatives are used first, then other-allele label-0 peptides fill
+the remaining slots so the train/CV and evaluation splits are 50/50
+positive/negative.
 """
 
 from __future__ import annotations
@@ -78,16 +79,13 @@ def read_epitope_positive_peptides(path: Path) -> set[str]:
     return peptides
 
 
-def read_hla_only_negatives(
+def read_hla_only_negative_candidates(
     path: Path,
     allele: str,
     positive_peptides: set[str],
-    allow_fallback_negatives: bool,
-    min_negative_rows: int,
-) -> tuple[set[str], Counter]:
+) -> tuple[dict[str, set[str]], Counter]:
     stats = Counter()
-    primary_negatives = set()
-    fallback_negatives = set()
+    candidates: dict[str, set[str]] = defaultdict(set)
     target_allele = normalize_allele(allele)
 
     with path.open(encoding="utf-8") as handle:
@@ -105,20 +103,121 @@ def read_hla_only_negatives(
             if peptide in positive_peptides:
                 stats["negative_overlaps_epitope_positive_excluded"] += 1
                 continue
-            if row_allele == target_allele:
-                primary_negatives.add(peptide)
-            elif allow_fallback_negatives:
-                fallback_negatives.add(peptide)
+            candidates[peptide].add(row_allele)
+            stats["valid_negative_rows"] += 1
 
-    selected = set(primary_negatives)
-    stats["primary_same_allele_negatives"] = len(primary_negatives)
-    if allow_fallback_negatives and len(selected) < min_negative_rows:
-        needed = min_negative_rows - len(selected)
-        selected.update(sorted(fallback_negatives)[:needed])
-        stats["fallback_negatives_used"] = len(selected) - len(primary_negatives)
-    else:
-        stats["fallback_negatives_used"] = 0
-    stats["selected_negatives"] = len(selected)
+    stats["unique_negative_candidates"] = len(candidates)
+    stats["unique_same_allele_negative_candidates"] = sum(
+        1 for alleles in candidates.values() if target_allele in alleles
+    )
+    stats["unique_other_allele_negative_candidates"] = sum(
+        1 for alleles in candidates.values() if target_allele not in alleles
+    )
+    return dict(candidates), stats
+
+
+def choose_negative_partition(
+    negative_candidates: dict[str, set[str]],
+    target_allele: str,
+    held_out_aa: str,
+    contains_heldout: bool,
+    target_count: int,
+    seed: int,
+) -> tuple[list[str], Counter]:
+    partition = [
+        peptide
+        for peptide in negative_candidates
+        if (held_out_aa in peptide) == contains_heldout
+    ]
+    same_allele = [peptide for peptide in partition if target_allele in negative_candidates[peptide]]
+    other_allele = [peptide for peptide in partition if target_allele not in negative_candidates[peptide]]
+
+    rng = random.Random(seed + (1009 if contains_heldout else 0))
+    same_allele = sorted(same_allele)
+    other_allele = sorted(other_allele)
+    rng.shuffle(same_allele)
+    rng.shuffle(other_allele)
+
+    selected = same_allele[:target_count]
+    selected.extend(other_allele[: max(0, target_count - len(selected))])
+    if len(selected) < target_count:
+        split_name = "evaluation" if contains_heldout else "train/CV"
+        raise ValueError(
+            f"Need {target_count} unique label-0 negatives for the {split_name} split, "
+            f"but only found {len(selected)} after excluding epitope positives."
+        )
+
+    stats = Counter(
+        {
+            "available_same_allele": len(same_allele),
+            "available_other_allele": len(other_allele),
+            "selected_same_allele": sum(
+                1 for peptide in selected if target_allele in negative_candidates[peptide]
+            ),
+            "selected_other_allele": sum(
+                1 for peptide in selected if target_allele not in negative_candidates[peptide]
+            ),
+            "selected_total": len(selected),
+        }
+    )
+    return selected, stats
+
+
+def choose_balanced_negatives(
+    positive_peptides: set[str],
+    negative_candidates: dict[str, set[str]],
+    allele: str,
+    held_out_aa: str,
+    negative_ratio: float,
+    seed: int,
+) -> tuple[set[str], Counter]:
+    if negative_ratio <= 0:
+        raise ValueError("negative_ratio must be greater than 0")
+
+    target_allele = normalize_allele(allele)
+    train_positive_count = sum(held_out_aa not in peptide for peptide in positive_peptides)
+    eval_positive_count = sum(held_out_aa in peptide for peptide in positive_peptides)
+    train_negative_target = round(train_positive_count * negative_ratio)
+    eval_negative_target = round(eval_positive_count * negative_ratio)
+
+    train_negatives, train_stats = choose_negative_partition(
+        negative_candidates,
+        target_allele=target_allele,
+        held_out_aa=held_out_aa,
+        contains_heldout=False,
+        target_count=train_negative_target,
+        seed=seed,
+    )
+    eval_negatives, eval_stats = choose_negative_partition(
+        negative_candidates,
+        target_allele=target_allele,
+        held_out_aa=held_out_aa,
+        contains_heldout=True,
+        target_count=eval_negative_target,
+        seed=seed,
+    )
+    selected = set(train_negatives) | set(eval_negatives)
+    if len(selected) != len(train_negatives) + len(eval_negatives):
+        raise AssertionError("Negative train/evaluation partitions unexpectedly overlap.")
+
+    stats = Counter(
+        {
+            "negative_ratio": negative_ratio,
+            "train_negative_target": train_negative_target,
+            "eval_negative_target": eval_negative_target,
+            "selected_negatives": len(selected),
+            "selected_same_allele_negatives": train_stats["selected_same_allele"] + eval_stats["selected_same_allele"],
+            "selected_other_allele_negatives": train_stats["selected_other_allele"] + eval_stats["selected_other_allele"],
+            "train_available_same_allele_negatives": train_stats["available_same_allele"],
+            "train_available_other_allele_negatives": train_stats["available_other_allele"],
+            "train_selected_same_allele_negatives": train_stats["selected_same_allele"],
+            "train_selected_other_allele_negatives": train_stats["selected_other_allele"],
+            "eval_available_same_allele_negatives": eval_stats["available_same_allele"],
+            "eval_available_other_allele_negatives": eval_stats["available_other_allele"],
+            "eval_selected_same_allele_negatives": eval_stats["selected_same_allele"],
+            "eval_selected_other_allele_negatives": eval_stats["selected_other_allele"],
+        }
+    )
     return selected, stats
 
 
@@ -131,6 +230,8 @@ def build_combined_records(positive_peptides: set[str], negative_peptides: set[s
 def write_records_with_source_csv(
     records: Iterable[Record],
     positive_peptides: set[str],
+    negative_candidates: dict[str, set[str]],
+    target_allele: str,
     path: Path,
     include_fold: bool,
 ) -> None:
@@ -140,12 +241,24 @@ def write_records_with_source_csv(
             "Peptide": row.peptide,
             "Label": row.label,
             "Allele": row.allele,
-            "Source": "epitope_xlsx_binder" if row.peptide in positive_peptides else "hla_only_a0301_nonbinder",
+            "Source": "epitope_xlsx_binder" if row.peptide in positive_peptides else "hla_only_label0_nonbinder",
+            "Source_Group": "positive_epitope_xlsx"
+            if row.peptide in positive_peptides
+            else (
+                "negative_same_allele_hla_only"
+                if target_allele in negative_candidates.get(row.peptide, set())
+                else "negative_other_allele_hla_only"
+            ),
+            "Source_Alleles": target_allele
+            if row.peptide in positive_peptides
+            else ";".join(sorted(negative_candidates.get(row.peptide, set()))),
         }
         if include_fold:
             out["Fold"] = row.fold
         rows.append(out)
-    fieldnames = ["Peptide", "Label", "Allele", "Source"] + (["Fold"] if include_fold else [])
+    fieldnames = ["Peptide", "Label", "Allele", "Source", "Source_Group", "Source_Alleles"] + (
+        ["Fold"] if include_fold else []
+    )
     save_rows_csv(rows, path, fieldnames)
 
 
@@ -175,18 +288,19 @@ def run_workflow(args: SimpleNamespace) -> dict[str, object]:
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     positives = read_epitope_positive_peptides(args.epitope_csv)
-    negatives, negative_stats = read_hla_only_negatives(
+    negative_candidates, negative_candidate_stats = read_hla_only_negative_candidates(
         args.hla_file,
         allele=args.allele,
         positive_peptides=positives,
-        allow_fallback_negatives=args.allow_fallback_negatives,
-        min_negative_rows=args.min_negative_rows,
     )
-    if len(negatives) < args.min_negative_rows:
-        raise ValueError(
-            f"Only {len(negatives)} usable negatives were found for {args.allele}. "
-            "Lower MIN_NEGATIVE_ROWS or enable ALLOW_FALLBACK_NEGATIVES."
-        )
+    negatives, selected_negative_stats = choose_balanced_negatives(
+        positive_peptides=positives,
+        negative_candidates=negative_candidates,
+        allele=args.allele,
+        held_out_aa=args.held_out_aa,
+        negative_ratio=args.negative_ratio,
+        seed=args.seed,
+    )
 
     combined_records = build_combined_records(positives, negatives, args.allele)
     records_by_allele = {args.allele: combined_records}
@@ -217,17 +331,39 @@ def run_workflow(args: SimpleNamespace) -> dict[str, object]:
     fold_csv = args.output_dir / f"Epitope_A0301_19AA_{split_token}_Fold_Distribution.csv"
     source_summary_csv = args.output_dir / "Epitope_A0301_19AA_Source_Summary.csv"
 
-    write_records_with_source_csv(cv_records, positives, train_csv, include_fold=True)
+    write_records_with_source_csv(
+        cv_records,
+        positives,
+        negative_candidates,
+        target_allele=args.allele,
+        path=train_csv,
+        include_fold=True,
+    )
     write_labeled_txt(cv_records, train_txt, include_fold=True)
-    write_records_with_source_csv(eval_records, positives, eval_csv, include_fold=False)
+    write_records_with_source_csv(
+        eval_records,
+        positives,
+        negative_candidates,
+        target_allele=args.allele,
+        path=eval_csv,
+        include_fold=False,
+    )
     write_labeled_txt(eval_records, eval_txt, include_fold=False)
     save_rows_csv(summarize_fold_distribution(cv_records), fold_csv, ["Fold", "Rows", "Positive", "Negative"])
 
     source_rows = [
         {"Metric": "Positive epitope binders from XLSX", "Value": len(positives)},
-        {"Metric": f"Same-allele HLA-only non-binders for {args.allele}", "Value": negative_stats["primary_same_allele_negatives"]},
-        {"Metric": "Fallback non-binders used", "Value": negative_stats["fallback_negatives_used"]},
+        {"Metric": "Unique label-0 negative candidates from hla_only.txt", "Value": negative_candidate_stats["unique_negative_candidates"]},
+        {"Metric": f"Unique same-allele negative candidates for {args.allele}", "Value": negative_candidate_stats["unique_same_allele_negative_candidates"]},
+        {"Metric": "Unique other-allele negative candidates", "Value": negative_candidate_stats["unique_other_allele_negative_candidates"]},
+        {"Metric": "Negative-to-positive ratio", "Value": selected_negative_stats["negative_ratio"]},
         {"Metric": "Selected non-binders", "Value": len(negatives)},
+        {"Metric": f"Selected same-allele non-binders for {args.allele}", "Value": selected_negative_stats["selected_same_allele_negatives"]},
+        {"Metric": "Selected other-allele non-binders", "Value": selected_negative_stats["selected_other_allele_negatives"]},
+        {"Metric": "Train selected same-allele non-binders", "Value": selected_negative_stats["train_selected_same_allele_negatives"]},
+        {"Metric": "Train selected other-allele non-binders", "Value": selected_negative_stats["train_selected_other_allele_negatives"]},
+        {"Metric": "Evaluation selected same-allele non-binders", "Value": selected_negative_stats["eval_selected_same_allele_negatives"]},
+        {"Metric": "Evaluation selected other-allele non-binders", "Value": selected_negative_stats["eval_selected_other_allele_negatives"]},
         {"Metric": "Total labeled peptides", "Value": len(combined_records)},
         {"Metric": "Held-out amino acid", "Value": selected["Held_Out_AA"]},
         {"Metric": "Train/CV rows", "Value": len(cv_records)},
@@ -241,8 +377,13 @@ def run_workflow(args: SimpleNamespace) -> dict[str, object]:
 
     print("Epitope A03:01 labeled held-out run")
     print(f"  positives from XLSX: {len(positives)}")
-    print(f"  negatives from hla_only.txt ({args.allele}): {negative_stats['primary_same_allele_negatives']}")
-    print(f"  fallback negatives used: {negative_stats['fallback_negatives_used']}")
+    print(f"  unique label-0 negative candidates from hla_only.txt: {negative_candidate_stats['unique_negative_candidates']}")
+    print(f"  same-allele negative candidates ({args.allele}): {negative_candidate_stats['unique_same_allele_negative_candidates']}")
+    print(f"  selected negatives: {len(negatives)}")
+    print(
+        f"  selected same-allele negatives={selected_negative_stats['selected_same_allele_negatives']} | "
+        f"other-allele negatives={selected_negative_stats['selected_other_allele_negatives']}"
+    )
     print(
         f"  selected split: allele={selected['Allele']} held_out_aa={selected['Held_Out_AA']} "
         f"train/test={len(cv_records)} eval={len(eval_records)}"
@@ -350,8 +491,7 @@ def default_args() -> SimpleNamespace:
         image_dir=DEFAULT_IMAGE_DIR,
         allele=DEFAULT_ALLELE,
         held_out_aa=DEFAULT_HELD_OUT_AA,
-        min_negative_rows=100,
-        allow_fallback_negatives=False,
+        negative_ratio=1.0,
         min_train_rows=1000,
         min_eval_rows=100,
         min_train_per_class=25,
@@ -375,8 +515,7 @@ def parse_args() -> SimpleNamespace:
     parser.add_argument("--image-dir", type=Path, default=DEFAULT_IMAGE_DIR)
     parser.add_argument("--allele", default=DEFAULT_ALLELE)
     parser.add_argument("--held-out-aa", default=DEFAULT_HELD_OUT_AA)
-    parser.add_argument("--min-negative-rows", type=int, default=100)
-    parser.add_argument("--allow-fallback-negatives", action="store_true")
+    parser.add_argument("--negative-ratio", type=float, default=1.0, help="Negatives per positive in both train/CV and evaluation splits.")
     parser.add_argument("--min-train-rows", type=int, default=1000)
     parser.add_argument("--min-eval-rows", type=int, default=100)
     parser.add_argument("--min-train-per-class", type=int, default=25)

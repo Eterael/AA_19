@@ -10,8 +10,10 @@ where that amino acid is present.
 
 The epitopes in this workbook are treated as binders for HLA-A03:01. The
 workbook does not include non-binders, so the supervised training run is
-handled separately in Epitope_A0301_Heldout_Training_Run.ipynb, where
-same-allele label-0 peptides from hla_only.txt are introduced as non-binders.
+handled separately in Epitope_A0301_Heldout_Training_Run.ipynb. That
+training notebook introduces unique label-0 peptides from hla_only.txt as
+non-binders, using same-allele negatives first and other-allele negatives
+to make a 1:1 split.
 
 Input file
 ----------
@@ -87,8 +89,9 @@ Epitope_Table_Heldout_Run.ipynb
 
 Epitope_A0301_Heldout_Training_Run.ipynb
   Downstream network-training notebook. It treats these canonical epitopes as
-  HLA-A03:01 binders and adds HLA-A03:01 label-0 peptides from hla_only.txt as
-  non-binders.
+  HLA-A03:01 binders and adds unique label-0 peptides from hla_only.txt as
+  non-binders. Same-allele negatives are used first, then other alleles fill
+  the 1:1 split.
 
 epitope_table_heldout_run.py
   Reproducible stdlib-only runner used by the notebook.

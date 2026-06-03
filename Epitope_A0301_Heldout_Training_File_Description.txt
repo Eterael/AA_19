@@ -7,7 +7,9 @@ This is the network-training run for the new epitope table data.
 
 The new XLSX epitope export is treated as an all-binder positive set for
 HLA-A03:01. Because the XLSX does not contain non-binders, negatives are added
-from hla_only.txt using only label-0 peptides for HLA-A03:01.
+from hla_only.txt using unique label-0 9-mer peptides. Same-allele HLA-A03:01
+negatives are used first, then the remaining negative slots are filled with
+unique label-0 peptides from other alleles.
 
 The combined labeled dataset is then split with the same held-out-AA logic:
   Train/CV peptides: no held-out amino acid anywhere.
@@ -18,21 +20,31 @@ Default split
 Allele: HLA-A03:01
 Held-out amino acid: W
 Positive source: canonical 9-mers from epitope_table_export_1779969300.xlsx
-Negative source: label-0 HLA-A03:01 9-mers from hla_only.txt
+Negative source: unique label-0 9-mers from hla_only.txt
+Negative sampling: 1:1 positive/negative ratio in train/CV and evaluation
 
 Current prepared split
 ----------------------
 Positive binders from XLSX: 9648
-Same-allele HLA-only non-binders: 1110
-Fallback negatives used: 0
+Unique label-0 negative candidates from hla_only.txt: 93396
+Unique same-allele HLA-A03:01 negative candidates: 1110
+Unique other-allele negative candidates: 92286
 
-Train/CV rows: 9609
+Selected non-binders: 9648
+Selected same-allele HLA-A03:01 non-binders: 1110
+Selected other-allele non-binders: 8538
+
+Train/CV rows: 17154
 Train/CV positives: 8577
-Train/CV negatives: 1032
+Train/CV negatives: 8577
+Train/CV same-allele negatives: 1032
+Train/CV other-allele negatives: 7545
 
-Held-out evaluation rows: 1149
+Held-out evaluation rows: 2142
 Held-out evaluation positives: 1071
-Held-out evaluation negatives: 78
+Held-out evaluation negatives: 1071
+Held-out evaluation same-allele negatives: 78
+Held-out evaluation other-allele negatives: 993
 
 Run order
 ---------
@@ -68,10 +80,12 @@ epitope_a0301_heldout_results/Epitope_A0301_19AA_Split_Candidates.csv
   Candidate train/evaluation support for every possible held-out amino acid.
 
 epitope_a0301_heldout_results/*TrainTest_9mers_Labeled.csv
-  Combined train/CV peptides with labels, source field, and fold assignment.
+  Combined train/CV peptides with labels, source fields, source alleles, and
+  fold assignment. Peptides are unique.
 
 epitope_a0301_heldout_results/*Heldout_Evaluation_9mers_Labeled.csv
-  Combined held-out evaluation peptides with labels and source field.
+  Combined held-out evaluation peptides with labels, source fields, and source
+  alleles. Peptides are unique and do not overlap the train/CV file.
 
 epitope_a0301_heldout_results/*CV_Summary.csv
   Written after Step 2 training finishes. Contains cross-validation metrics.

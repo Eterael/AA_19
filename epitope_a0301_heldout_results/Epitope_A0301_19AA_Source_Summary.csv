@@ -1,13 +1,21 @@
 Metric,Value
 Positive epitope binders from XLSX,9648
-Same-allele HLA-only non-binders for HLA-A03:01,1110
-Fallback non-binders used,0
-Selected non-binders,1110
-Total labeled peptides,10758
+Unique label-0 negative candidates from hla_only.txt,93396
+Unique same-allele negative candidates for HLA-A03:01,1110
+Unique other-allele negative candidates,92286
+Negative-to-positive ratio,1.0
+Selected non-binders,9648
+Selected same-allele non-binders for HLA-A03:01,1110
+Selected other-allele non-binders,8538
+Train selected same-allele non-binders,1032
+Train selected other-allele non-binders,7545
+Evaluation selected same-allele non-binders,78
+Evaluation selected other-allele non-binders,993
+Total labeled peptides,19296
 Held-out amino acid,W
-Train/CV rows,9609
+Train/CV rows,17154
 Train/CV positives,8577
-Train/CV negatives,1032
-Held-out evaluation rows,1149
+Train/CV negatives,8577
+Held-out evaluation rows,2142
 Held-out evaluation positives,1071
-Held-out evaluation negatives,78
+Held-out evaluation negatives,1071
