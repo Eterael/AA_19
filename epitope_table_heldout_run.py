@@ -1,8 +1,8 @@
 """Prepare a 19-AA held-out split from the IEDB epitope table export.
 
-This workflow is intentionally data-preparation only. The XLSX export used here
-contains epitope catalogue metadata, but not binding labels or HLA alleles, so
-the supervised AE/one-hot/BLOSUM comparison cannot be run from this file alone.
+This workflow prepares canonical epitope positives only. The downstream
+training run treats these epitopes as HLA-A03:01 binders and adds same-allele
+label-0 peptides from hla_only.txt as non-binders.
 """
 
 from __future__ import annotations
@@ -503,7 +503,7 @@ def build_notebook(summary: dict, candidates: Sequence[dict], train_preview: Seq
         f"Default held-out amino acid: {summary['held_out_aa']}\n"
         f"Training/CV peptides without {summary['held_out_aa']}: {summary['train_rows']}\n"
         f"Evaluation peptides with {summary['held_out_aa']}: {summary['evaluation_rows']}\n"
-        "Supervised model performance was not computed because this XLSX has no binding labels or HLA allele column.\n"
+        "Network training is handled by Epitope_A0301_Heldout_Training_Run.ipynb after adding A03:01 non-binders.\n"
     )
     report_rows = [
         {"Metric": "Raw epitope rows", "Value": summary["raw_rows"]},
@@ -520,12 +520,12 @@ def build_notebook(summary: dict, candidates: Sequence[dict], train_preview: Seq
 
     cells = [
         notebook_markdown_cell(
-            "# Epitope Table 19-AA Held-Out Preparation\n\n"
-            "This notebook prepares the new IEDB epitope table export for the same 19-amino-acid held-out idea used in the HLA runs. "
+            "# Epitope-Only Held-Out Preparation Workflow\n\n"
+            "This notebook prepares the new IEDB epitope table export for the epitope-only held-out workflow. "
             "Rows are kept only when the epitope is a linear, unmodified, canonical 9-mer using the 20 standard amino acids. "
             "Any peptide name with non-canonical characters such as `+`, `X`, `B`, `Z`, `J`, brackets, or other uncertainty/modification notation is excluded. "
             "Rows with populated `Modified Residue(s)` or `Modifications` fields are also excluded before deduplication.\n\n"
-            "**Important limitation:** this XLSX is an epitope catalogue. It does not include binding labels or HLA allele fields, so AUC, confusion matrices, and the AE/one-hot/BLOSUM supervised comparison cannot be computed from this file alone."
+            "The downstream training notebook is `Epitope_A0301_Heldout_Training_Run.ipynb`, where these epitopes are treated as HLA-A03:01 binders and same-allele label-0 peptides from `hla_only.txt` are introduced as non-binders."
         ),
         notebook_code_cell(
             "# Recreate all generated CSV/SVG/TXT outputs from the workbook.\n%run epitope_table_heldout_run.py --no-notebook\n",
@@ -561,9 +561,9 @@ def build_notebook(summary: dict, candidates: Sequence[dict], train_preview: Seq
             f"![Evaluation logo](epitope_table_new_data_results/Epitope_Table_Logo_Evaluation_With_{summary['held_out_aa']}.svg)"
         ),
         notebook_markdown_cell(
-            "## Downstream Modeling Note\n\n"
-            "To run the full binding-prediction comparison later, join these canonical peptides to a labeled assay/HLA table that has at least `peptide`, `label`, and `allele`. "
-            "After that join, the existing HLA workflow can be reused: keep one allele, train five folds on peptides without the held-out amino acid, and evaluate ensemble predictions on peptides containing the held-out amino acid."
+            "## Downstream Network Training\n\n"
+            "Run `Epitope_A0301_Heldout_Training_Run.ipynb` after this preparation notebook. "
+            "That training notebook adds HLA-A03:01 label-0 non-binders from `hla_only.txt`, prepares the held-out-AA split, trains AE/one-hot/BLOSUM62 models, and reports CV plus held-out evaluation summaries."
         ),
     ]
     return {
@@ -592,13 +592,14 @@ def make_description(summary: dict, candidates: Sequence[dict]) -> str:
         "===========================================================\n\n"
         "Purpose\n"
         "-------\n"
-        "This workflow prepares the new IEDB epitope table XLSX for the same 19-AA\n"
-        "held-out idea as the HLA runs. It keeps canonical unmodified 9-mer epitopes,\n"
+        "This workflow prepares the new IEDB epitope table XLSX as an epitope-only\n"
+        "held-out preparation run. It keeps canonical unmodified 9-mer epitopes,\n"
         "then creates a train/CV set with one amino acid absent and an evaluation set\n"
         "where that amino acid is present.\n\n"
-        "This file is not a supervised binding dataset. The workbook does not include\n"
-        "binding labels or HLA allele columns, so AUC, confusion matrices, and neural\n"
-        "network performance comparisons are intentionally not reported here.\n\n"
+        "The epitopes in this workbook are treated as binders for HLA-A03:01. The\n"
+        "workbook does not include non-binders, so the supervised training run is\n"
+        "handled separately in Epitope_A0301_Heldout_Training_Run.ipynb, where\n"
+        "same-allele label-0 peptides from hla_only.txt are introduced as non-binders.\n\n"
         "Input file\n"
         "----------\n"
         f"{summary['workbook']}\n"
@@ -632,10 +633,10 @@ def make_description(summary: dict, candidates: Sequence[dict]) -> str:
         f"Consensus, evaluation with {summary['held_out_aa']}: {summary['consensus_evaluation']}\n\n"
         "Held-out decision\n"
         "-----------------\n"
-        "The default split holds out W, matching the earlier HLA W-heldout notebooks.\n"
-        "The candidate table is still written for all 20 standard amino acids so a\n"
-        "different held-out amino acid can be selected without changing the filtering\n"
-        "logic.\n\n"
+        "The default split holds out W for continuity with the earlier held-out-AA\n"
+        "experiments. The candidate table is still written for all 20 standard amino\n"
+        "acids so a different held-out amino acid can be selected without changing\n"
+        "the filtering logic.\n\n"
         + markdown_table(candidates, candidate_columns)
         + "\n\n"
         "Generated files\n"
@@ -643,6 +644,10 @@ def make_description(summary: dict, candidates: Sequence[dict]) -> str:
         "Epitope_Table_Heldout_Run.ipynb\n"
         "  Notebook with visible saved summary, candidate table, split preview, and\n"
         "  sequence-logo style SVGs.\n\n"
+        "Epitope_A0301_Heldout_Training_Run.ipynb\n"
+        "  Downstream network-training notebook. It treats these canonical epitopes as\n"
+        "  HLA-A03:01 binders and adds HLA-A03:01 label-0 peptides from hla_only.txt as\n"
+        "  non-binders.\n\n"
         "epitope_table_heldout_run.py\n"
         "  Reproducible stdlib-only runner used by the notebook.\n\n"
         "epitope_table_new_data_results/Epitope_Table_Canonical_9mers.csv\n"
@@ -781,7 +786,7 @@ def main(create_notebook: bool = True) -> dict:
     print(f"Default held-out amino acid: {DEFAULT_HELD_OUT_AA}")
     print(f"Training/CV peptides without {DEFAULT_HELD_OUT_AA}: {len(train_rows)}")
     print(f"Evaluation peptides with {DEFAULT_HELD_OUT_AA}: {len(eval_rows)}")
-    print("Supervised model performance was not computed because this XLSX has no binding labels or HLA allele column.")
+    print("Network training is handled by Epitope_A0301_Heldout_Training_Run.ipynb after adding A03:01 non-binders.")
     return summary
 
 

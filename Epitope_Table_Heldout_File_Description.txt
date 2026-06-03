@@ -4,14 +4,14 @@ EPITOPE TABLE 19-AA HELD-OUT PREPARATION: FILE DESCRIPTION
 Purpose
 -------
 This workflow prepares the new IEDB epitope table XLSX as an epitope-only
-held-out run. It keeps canonical unmodified 9-mer epitopes, then creates a
-train/CV set with one amino acid absent and an evaluation set where that amino
-acid is present. It does not read hla_only.txt and does not train on the old
-HLA-only dataset.
+held-out preparation run. It keeps canonical unmodified 9-mer epitopes,
+then creates a train/CV set with one amino acid absent and an evaluation set
+where that amino acid is present.
 
-This file is not a supervised binding dataset. The workbook does not include
-binding labels, non-binders, or HLA allele columns, so AUC, confusion matrices,
-and neural network performance comparisons are intentionally not reported here.
+The epitopes in this workbook are treated as binders for HLA-A03:01. The
+workbook does not include non-binders, so the supervised training run is
+handled separately in Epitope_A0301_Heldout_Training_Run.ipynb, where
+same-allele label-0 peptides from hla_only.txt are introduced as non-binders.
 
 Input file
 ----------
@@ -53,8 +53,8 @@ Held-out decision
 -----------------
 The default split holds out W for continuity with the earlier held-out-AA
 experiments. The candidate table is still written for all 20 standard amino
-acids so a different held-out amino acid can be selected without changing the
-filtering logic.
+acids so a different held-out amino acid can be selected without changing
+the filtering logic.
 
 | Held_Out_AA | Train_Count_No_AA | Evaluation_Count_With_AA | Anchor_P2_or_P9_Count | Anchor_Only_P2_or_P9_Count | Rank_By_Train_Count | Rank_By_Evaluation_Count |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -84,6 +84,11 @@ Generated files
 Epitope_Table_Heldout_Run.ipynb
   Notebook with visible saved summary, candidate table, split preview, and
   sequence-logo style SVGs.
+
+Epitope_A0301_Heldout_Training_Run.ipynb
+  Downstream network-training notebook. It treats these canonical epitopes as
+  HLA-A03:01 binders and adds HLA-A03:01 label-0 peptides from hla_only.txt as
+  non-binders.
 
 epitope_table_heldout_run.py
   Reproducible stdlib-only runner used by the notebook.

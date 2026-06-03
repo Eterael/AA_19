@@ -1,0 +1,80 @@
+EPITOPE A03:01 HELD-OUT TRAINING RUN: FILE DESCRIPTION
+======================================================
+
+Purpose
+-------
+This is the network-training run for the new epitope table data.
+
+The new XLSX epitope export is treated as an all-binder positive set for
+HLA-A03:01. Because the XLSX does not contain non-binders, negatives are added
+from hla_only.txt using only label-0 peptides for HLA-A03:01.
+
+The combined labeled dataset is then split with the same held-out-AA logic:
+  Train/CV peptides: no held-out amino acid anywhere.
+  Evaluation peptides: contain the held-out amino acid.
+
+Default split
+-------------
+Allele: HLA-A03:01
+Held-out amino acid: W
+Positive source: canonical 9-mers from epitope_table_export_1779969300.xlsx
+Negative source: label-0 HLA-A03:01 9-mers from hla_only.txt
+
+Current prepared split
+----------------------
+Positive binders from XLSX: 9648
+Same-allele HLA-only non-binders: 1110
+Fallback negatives used: 0
+
+Train/CV rows: 9609
+Train/CV positives: 8577
+Train/CV negatives: 1032
+
+Held-out evaluation rows: 1149
+Held-out evaluation positives: 1071
+Held-out evaluation negatives: 78
+
+Run order
+---------
+1. Run Epitope_Table_Heldout_Run.ipynb if the XLSX-derived canonical epitope
+   CSVs are missing or stale.
+
+2. Run Epitope_A0301_Heldout_Training_Run.ipynb from top to bottom.
+
+3. In that notebook, Step 1 prepares and checks the combined positive/negative
+   split. Step 2 trains AE, one-hot, and BLOSUM62 models. Step 3 displays the
+   summary CSVs after training.
+
+Requirements for Step 2
+-----------------------
+The full network-training cell needs a Jupyter kernel with torch and
+torchvision installed. The AE encoder also needs:
+  peptide_autoencoder_v3_512.pth
+  peptide_rotamers/
+
+Generated files
+---------------
+epitope_a0301_heldout_training_run.py
+  Script version of the epitope A03:01 training run.
+
+Epitope_A0301_Heldout_Training_Run.ipynb
+  Notebook entry point for preparing the combined labeled split, training the
+  networks, and reporting the generated summaries.
+
+epitope_a0301_heldout_results/Epitope_A0301_19AA_Source_Summary.csv
+  Counts for positive and negative sources and selected split support.
+
+epitope_a0301_heldout_results/Epitope_A0301_19AA_Split_Candidates.csv
+  Candidate train/evaluation support for every possible held-out amino acid.
+
+epitope_a0301_heldout_results/*TrainTest_9mers_Labeled.csv
+  Combined train/CV peptides with labels, source field, and fold assignment.
+
+epitope_a0301_heldout_results/*Heldout_Evaluation_9mers_Labeled.csv
+  Combined held-out evaluation peptides with labels and source field.
+
+epitope_a0301_heldout_results/*CV_Summary.csv
+  Written after Step 2 training finishes. Contains cross-validation metrics.
+
+epitope_a0301_heldout_results/*Heldout_Evaluation_Summary.csv
+  Written after Step 2 training finishes. Contains held-out evaluation metrics.
