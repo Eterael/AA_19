@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="706" height="312" viewBox="0 0 706 312">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="52" y="22" font-size="16" font-family="Arial, sans-serif" font-weight="700" fill="#222222">Train/CV without R, n=5523</text>
+<line x1="52" y1="38" x2="52" y2="268" stroke="#222222" stroke-width="1"/>
+<line x1="52" y1="268" x2="682" y2="268" stroke="#222222" stroke-width="1"/>
+<text x="8" y="48" font-size="11" font-family="Arial, sans-serif" fill="#555555">bits</text>
+<line x1="48" y1="268.00" x2="52" y2="268.00" stroke="#555555" stroke-width="1"/>
+<text x="24" y="272.00" font-size="10" font-family="Arial, sans-serif" fill="#555555">0</text>
+<line x1="48" y1="214.78" x2="52" y2="214.78" stroke="#555555" stroke-width="1"/>
+<text x="24" y="218.78" font-size="10" font-family="Arial, sans-serif" fill="#555555">1</text>
+<line x1="48" y1="161.57" x2="52" y2="161.57" stroke="#555555" stroke-width="1"/>
+<text x="24" y="165.57" font-size="10" font-family="Arial, sans-serif" fill="#555555">2</text>
+<line x1="48" y1="108.35" x2="52" y2="108.35" stroke="#555555" stroke-width="1"/>
+<text x="24" y="112.35" font-size="10" font-family="Arial, sans-serif" fill="#555555">3</text>
+<line x1="48" y1="55.13" x2="52" y2="55.13" stroke="#555555" stroke-width="1"/>
+<text x="24" y="59.13" font-size="10" font-family="Arial, sans-serif" fill="#555555">4</text>
+<rect x="63.00" y="266.57" width="48" height="1.43" fill="#1a9850" opacity="0.9"/>
+<rect x="63.00" y="265.07" width="48" height="1.51" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="263.35" width="48" height="1.71" fill="#777777" opacity="0.9"/>
+<rect x="63.00" y="261.58" width="48" height="1.77" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="259.61" width="48" height="1.97" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="257.11" width="48" height="2.50" fill="#1a9850" opacity="0.9"/>
+<rect x="63.00" y="253.89" width="48" height="3.23" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="250.17" width="48" height="3.71" fill="#4575b4" opacity="0.9"/>
+<text x="87.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P1</text>
+<rect x="133.00" y="266.77" width="48" height="1.23" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="265.48" width="48" height="1.28" fill="#984ea3" opacity="0.9"/>
+<rect x="133.00" y="263.64" width="48" height="1.84" fill="#1a9850" opacity="0.9"/>
+<rect x="133.00" y="261.41" width="48" height="2.23" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="259.02" width="48" height="2.39" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="254.72" width="48" height="4.30" fill="#1a9850" opacity="0.9"/>
+<rect x="133.00" y="249.64" width="48" height="5.08" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="242.68" width="48" height="6.95" fill="#1a9850" opacity="0.9"/>
+<rect x="133.00" y="234.86" width="48" height="7.83" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="222.25" width="48" height="12.60" fill="#222222" opacity="0.9"/>
+<text x="157.00" y="232.56" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">L</text>
+<text x="157.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P2</text>
+<rect x="203.00" y="266.98" width="48" height="1.02" fill="#1a9850" opacity="0.9"/>
+<rect x="203.00" y="265.44" width="48" height="1.54" fill="#1a9850" opacity="0.9"/>
+<rect x="203.00" y="263.79" width="48" height="1.65" fill="#222222" opacity="0.9"/>
+<rect x="203.00" y="262.06" width="48" height="1.73" fill="#222222" opacity="0.9"/>
+<rect x="203.00" y="260.28" width="48" height="1.78" fill="#222222" opacity="0.9"/>
+<rect x="203.00" y="258.39" width="48" height="1.89" fill="#222222" opacity="0.9"/>
+<text x="227.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P3</text>
+<rect x="273.00" y="266.99" width="48" height="1.01" fill="#4575b4" opacity="0.9"/>
+<rect x="273.00" y="265.91" width="48" height="1.08" fill="#222222" opacity="0.9"/>
+<rect x="273.00" y="264.82" width="48" height="1.09" fill="#d73027" opacity="0.9"/>
+<rect x="273.00" y="263.64" width="48" height="1.19" fill="#777777" opacity="0.9"/>
+<rect x="273.00" y="262.37" width="48" height="1.27" fill="#1a9850" opacity="0.9"/>
+<rect x="273.00" y="261.03" width="48" height="1.34" fill="#984ea3" opacity="0.9"/>
+<text x="297.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P4</text>
+<rect x="343.00" y="266.99" width="48" height="1.01" fill="#1a9850" opacity="0.9"/>
+<rect x="343.00" y="265.97" width="48" height="1.02" fill="#222222" opacity="0.9"/>
+<rect x="343.00" y="264.80" width="48" height="1.17" fill="#984ea3" opacity="0.9"/>
+<text x="367.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P5</text>
+<rect x="413.00" y="266.97" width="48" height="1.03" fill="#222222" opacity="0.9"/>
+<rect x="413.00" y="265.89" width="48" height="1.08" fill="#222222" opacity="0.9"/>
+<rect x="413.00" y="264.70" width="48" height="1.18" fill="#1a9850" opacity="0.9"/>
+<rect x="413.00" y="263.51" width="48" height="1.20" fill="#777777" opacity="0.9"/>
+<rect x="413.00" y="262.29" width="48" height="1.22" fill="#222222" opacity="0.9"/>
+<rect x="413.00" y="261.02" width="48" height="1.27" fill="#1a9850" opacity="0.9"/>
+<rect x="413.00" y="259.72" width="48" height="1.30" fill="#222222" opacity="0.9"/>
+<rect x="413.00" y="257.83" width="48" height="1.89" fill="#222222" opacity="0.9"/>
+<text x="437.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P6</text>
+<rect x="483.00" y="266.97" width="48" height="1.03" fill="#984ea3" opacity="0.9"/>
+<rect x="483.00" y="265.63" width="48" height="1.34" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="264.16" width="48" height="1.47" fill="#1a9850" opacity="0.9"/>
+<rect x="483.00" y="262.65" width="48" height="1.52" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="261.10" width="48" height="1.54" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="259.36" width="48" height="1.74" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="257.59" width="48" height="1.77" fill="#1a9850" opacity="0.9"/>
+<rect x="483.00" y="253.57" width="48" height="4.02" fill="#222222" opacity="0.9"/>
+<text x="507.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P7</text>
+<rect x="553.00" y="266.97" width="48" height="1.03" fill="#1a9850" opacity="0.9"/>
+<rect x="553.00" y="265.93" width="48" height="1.04" fill="#777777" opacity="0.9"/>
+<rect x="553.00" y="264.76" width="48" height="1.17" fill="#222222" opacity="0.9"/>
+<rect x="553.00" y="263.57" width="48" height="1.19" fill="#1a9850" opacity="0.9"/>
+<rect x="553.00" y="261.92" width="48" height="1.65" fill="#222222" opacity="0.9"/>
+<text x="577.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P8</text>
+<rect x="623.00" y="266.66" width="48" height="1.34" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="265.18" width="48" height="1.47" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="263.60" width="48" height="1.58" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="261.67" width="48" height="1.93" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="258.09" width="48" height="3.57" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="254.32" width="48" height="3.77" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="250.32" width="48" height="4.00" fill="#4575b4" opacity="0.9"/>
+<rect x="623.00" y="243.29" width="48" height="7.03" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="226.35" width="48" height="16.94" fill="#222222" opacity="0.9"/>
+<text x="647.00" y="238.82" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">Y</text>
+<rect x="623.00" y="170.83" width="48" height="55.52" fill="#4575b4" opacity="0.9"/>
+<text x="647.00" y="202.59" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">K</text>
+<text x="647.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P9</text>
+</svg>

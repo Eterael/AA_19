@@ -44,17 +44,17 @@ Canonical retained rows before dedupe: 9648
 Unique canonical 9-mers: 9648
 Excluded: modified_or_uncertain_annotation: 185
 
-Default held-out amino acid: W
-Training/CV peptides without W: 8577
-Evaluation peptides with W: 1071
+Default held-out amino acid: R
+Training/CV peptides without R: 5523
+Evaluation peptides with R: 4125
 Consensus, all canonical 9-mers: RLYPPLLLK
-Consensus, train/CV no W: RLYPPLLLK
-Consensus, evaluation with W: RLWWWWWWK
+Consensus, train/CV no R: KLYPPLLLK
+Consensus, evaluation with R: RLYRRLLRK
 
 Held-out decision
 -----------------
-The default split holds out W for continuity with the earlier held-out-AA
-experiments. The candidate table is still written for all 20 standard amino
+The default split holds out R to match the downstream
+A03:01 training notebook. The candidate table is still written for all 20 standard amino
 acids so a different held-out amino acid can be selected without changing
 the filtering logic.
 
@@ -105,11 +105,11 @@ epitope_table_new_data_results/Epitope_Table_Filter_Report.csv
 epitope_table_new_data_results/Epitope_Table_Heldout_Candidates.csv
   Train/evaluation support for holding out each standard amino acid.
 
-epitope_table_new_data_results/Epitope_Table_Heldout_W_Train_9mers.csv
-  Peptides with no W; includes a deterministic 1-5 fold assignment.
+epitope_table_new_data_results/Epitope_Table_Heldout_R_Train_9mers.csv
+  Peptides with no R; includes a deterministic 1-5 fold assignment.
 
-epitope_table_new_data_results/Epitope_Table_Heldout_W_Evaluation_9mers.csv
-  Peptides containing W and the positions where it appears.
+epitope_table_new_data_results/Epitope_Table_Heldout_R_Evaluation_9mers.csv
+  Peptides containing R and the positions where it appears.
 
 epitope_table_new_data_results/Epitope_Table_Position_Frequencies_*.csv
   Position-wise amino-acid frequencies for all, train, and evaluation sets.

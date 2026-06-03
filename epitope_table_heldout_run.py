@@ -26,7 +26,7 @@ PEPTIDE_LENGTH = 9
 FOLDS = 5
 MIN_TRAIN_ROWS = 1000
 MIN_EVAL_ROWS = 100
-DEFAULT_HELD_OUT_AA = "W"
+DEFAULT_HELD_OUT_AA = "R"
 
 WORKBOOK_NAME = "epitope_table_export_1779969300.xlsx"
 OUTPUT_DIR = Path("epitope_table_new_data_results")
@@ -207,8 +207,8 @@ def collapse_unique(records: Sequence[dict]) -> List[dict]:
                 "Peptide": peptide,
                 "IEDB_IRIs": ";".join(sorted(entry["IEDB_IRIs"])),
                 "Duplicate_Row_Count": entry["Duplicate_Row_Count"],
-                "Contains_W": "yes" if "W" in peptide else "no",
-                "W_Positions": split_positions(peptide, "W"),
+                f"Contains_{DEFAULT_HELD_OUT_AA}": "yes" if DEFAULT_HELD_OUT_AA in peptide else "no",
+                f"{DEFAULT_HELD_OUT_AA}_Positions": split_positions(peptide, DEFAULT_HELD_OUT_AA),
                 "Object_Type": first_nonempty(entry["Object_Type"]),
                 "Source_Molecule": first_nonempty(entry["Source_Molecule"]),
                 "Molecule_Parent": first_nonempty(entry["Molecule_Parent"]),
@@ -538,7 +538,7 @@ def build_notebook(summary: dict, candidates: Sequence[dict], train_preview: Seq
         ),
         notebook_markdown_cell(
             "## Held-Out Amino-Acid Candidates\n\n"
-            "The default split is held-out `W` so this epitope-table preparation stays comparable with the earlier HLA W-heldout runs. "
+            f"The default split is held-out `{summary['held_out_aa']}` to match the downstream A03:01 training notebook. "
             "The candidate table below also shows that the workbook can support other held-out choices; set `DEFAULT_HELD_OUT_AA` in `epitope_table_heldout_run.py` and rerun if you want a different residue.\n\n"
             + markdown_table(candidates, candidate_columns)
         ),
@@ -636,8 +636,8 @@ def make_description(summary: dict, candidates: Sequence[dict]) -> str:
         f"Consensus, evaluation with {summary['held_out_aa']}: {summary['consensus_evaluation']}\n\n"
         "Held-out decision\n"
         "-----------------\n"
-        "The default split holds out W for continuity with the earlier held-out-AA\n"
-        "experiments. The candidate table is still written for all 20 standard amino\n"
+        f"The default split holds out {summary['held_out_aa']} to match the downstream\n"
+        "A03:01 training notebook. The candidate table is still written for all 20 standard amino\n"
         "acids so a different held-out amino acid can be selected without changing\n"
         "the filtering logic.\n\n"
         + markdown_table(candidates, candidate_columns)
@@ -690,8 +690,8 @@ def main(create_notebook: bool = True) -> dict:
         "Peptide",
         "IEDB_IRIs",
         "Duplicate_Row_Count",
-        "Contains_W",
-        "W_Positions",
+        f"Contains_{DEFAULT_HELD_OUT_AA}",
+        f"{DEFAULT_HELD_OUT_AA}_Positions",
         "Object_Type",
         "Source_Molecule",
         "Molecule_Parent",

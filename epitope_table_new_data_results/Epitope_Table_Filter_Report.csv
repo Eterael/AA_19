@@ -4,11 +4,11 @@ Raw epitope rows,9833
 Canonical retained rows before dedupe,9648
 Canonical unique 9-mers,9648
 Duplicate retained rows collapsed,0
-Default held-out amino acid,W
-Train/CV peptides without W,8577
-Evaluation peptides with W,1071
+Default held-out amino acid,R
+Train/CV peptides without R,5523
+Evaluation peptides with R,4125
 "Consensus, all canonical 9-mers",RLYPPLLLK
-"Consensus, train no W",RLYPPLLLK
-"Consensus, evaluation with W",RLWWWWWWK
+"Consensus, train no R",KLYPPLLLK
+"Consensus, evaluation with R",RLYRRLLRK
 Excluded: modified_or_uncertain_annotation,185
 Noncanonical examples after annotation filter,none
