@@ -1,0 +1,109 @@
+EPITOPE TABLE 19-AA HELD-OUT PREPARATION: FILE DESCRIPTION
+===========================================================
+
+Purpose
+-------
+This workflow prepares the new IEDB epitope table XLSX for the same 19-AA
+held-out idea as the HLA runs. It keeps canonical unmodified 9-mer epitopes,
+then creates a train/CV set with one amino acid absent and an evaluation set
+where that amino acid is present.
+
+This file is not a supervised binding dataset. The workbook does not include
+binding labels or HLA allele columns, so AUC, confusion matrices, and neural
+network performance comparisons are intentionally not reported here.
+
+Input file
+----------
+epitope_table_export_1779969300.xlsx
+  IEDB epitope table export. The workflow reads Sheet1 and uses the epitope
+  fields from the first two header rows. The epitope sequence is the Epitope
+  Name column.
+
+Filtering decisions
+-------------------
+Rows are retained only if all of the following are true:
+  Object Type is blank or Linear peptide.
+  Epitope Name is present.
+  Modified Residue(s) and Modifications are both empty.
+  The cleaned epitope sequence contains only ACDEFGHIKLMNPQRSTVWY.
+  The cleaned epitope sequence is exactly 9 residues long.
+
+The non-canonical sequence rule removes entries with +, X, B, Z, J,
+brackets, gaps, or other uncertainty/modification notation in the sequence.
+Rows that carry modification/uncertainty annotations in the workbook fields
+are excluded before the sequence regex check, so exclusion counts are not
+double-counted.
+
+Current data summary
+--------------------
+Raw epitope rows: 9833
+Canonical retained rows before dedupe: 9648
+Unique canonical 9-mers: 9648
+Excluded: modified_or_uncertain_annotation: 185
+
+Default held-out amino acid: W
+Training/CV peptides without W: 8577
+Evaluation peptides with W: 1071
+Consensus, all canonical 9-mers: RLYPPLLLK
+Consensus, train/CV no W: RLYPPLLLK
+Consensus, evaluation with W: RLWWWWWWK
+
+Held-out decision
+-----------------
+The default split holds out W, matching the earlier HLA W-heldout notebooks.
+The candidate table is still written for all 20 standard amino acids so a
+different held-out amino acid can be selected without changing the filtering
+logic.
+
+| Held_Out_AA | Train_Count_No_AA | Evaluation_Count_With_AA | Anchor_P2_or_P9_Count | Anchor_Only_P2_or_P9_Count | Rank_By_Train_Count | Rank_By_Evaluation_Count |
+| --- | --- | --- | --- | --- | --- | --- |
+| C | 8965 | 683 | 67 | 57 | 1 | 20 |
+| W | 8577 | 1071 | 134 | 102 | 2 | 19 |
+| M | 7734 | 1914 | 526 | 418 | 3 | 18 |
+| H | 7705 | 1943 | 457 | 366 | 4 | 17 |
+| D | 7616 | 2032 | 55 | 44 | 5 | 16 |
+| E | 7258 | 2390 | 202 | 138 | 6 | 15 |
+| N | 7242 | 2406 | 69 | 52 | 7 | 14 |
+| Q | 7211 | 2437 | 406 | 286 | 8 | 13 |
+| P | 6289 | 3359 | 326 | 215 | 9 | 12 |
+| G | 6210 | 3438 | 178 | 91 | 10 | 11 |
+| F | 6194 | 3454 | 545 | 349 | 11 | 10 |
+| Y | 5943 | 3705 | 1539 | 1066 | 12 | 9 |
+| I | 5847 | 3801 | 1136 | 739 | 13 | 8 |
+| R | 5523 | 4125 | 1284 | 731 | 14 | 7 |
+| T | 5470 | 4178 | 1330 | 835 | 15 | 6 |
+| A | 5356 | 4292 | 543 | 274 | 16 | 5 |
+| V | 5112 | 4536 | 1809 | 1123 | 17 | 4 |
+| S | 5085 | 4563 | 793 | 412 | 18 | 3 |
+| K | 3428 | 6220 | 4586 | 2822 | 19 | 2 |
+| L | 3197 | 6451 | 3044 | 1442 | 20 | 1 |
+
+Generated files
+---------------
+Epitope_Table_Heldout_Run.ipynb
+  Notebook with visible saved summary, candidate table, split preview, and
+  sequence-logo style SVGs.
+
+epitope_table_heldout_run.py
+  Reproducible stdlib-only runner used by the notebook.
+
+epitope_table_new_data_results/Epitope_Table_Canonical_9mers.csv
+  Unique retained canonical 9-mer peptides and aggregated metadata.
+
+epitope_table_new_data_results/Epitope_Table_Filter_Report.csv
+  Non-overlapping filtering counts and selected split summary.
+
+epitope_table_new_data_results/Epitope_Table_Heldout_Candidates.csv
+  Train/evaluation support for holding out each standard amino acid.
+
+epitope_table_new_data_results/Epitope_Table_Heldout_W_Train_9mers.csv
+  Peptides with no W; includes a deterministic 1-5 fold assignment.
+
+epitope_table_new_data_results/Epitope_Table_Heldout_W_Evaluation_9mers.csv
+  Peptides containing W and the positions where it appears.
+
+epitope_table_new_data_results/Epitope_Table_Position_Frequencies_*.csv
+  Position-wise amino-acid frequencies for all, train, and evaluation sets.
+
+epitope_table_new_data_results/Epitope_Table_Logo_*.svg
+  Sequence-logo style information-content plots for all, train, and evaluation sets.

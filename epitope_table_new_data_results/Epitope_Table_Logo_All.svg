@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="706" height="312" viewBox="0 0 706 312">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="52" y="22" font-size="16" font-family="Arial, sans-serif" font-weight="700" fill="#222222">All canonical 9-mers, n=9648</text>
+<line x1="52" y1="38" x2="52" y2="268" stroke="#222222" stroke-width="1"/>
+<line x1="52" y1="268" x2="682" y2="268" stroke="#222222" stroke-width="1"/>
+<text x="8" y="48" font-size="11" font-family="Arial, sans-serif" fill="#555555">bits</text>
+<line x1="48" y1="268.00" x2="52" y2="268.00" stroke="#555555" stroke-width="1"/>
+<text x="24" y="272.00" font-size="10" font-family="Arial, sans-serif" fill="#555555">0</text>
+<line x1="48" y1="214.78" x2="52" y2="214.78" stroke="#555555" stroke-width="1"/>
+<text x="24" y="218.78" font-size="10" font-family="Arial, sans-serif" fill="#555555">1</text>
+<line x1="48" y1="161.57" x2="52" y2="161.57" stroke="#555555" stroke-width="1"/>
+<text x="24" y="165.57" font-size="10" font-family="Arial, sans-serif" fill="#555555">2</text>
+<line x1="48" y1="108.35" x2="52" y2="108.35" stroke="#555555" stroke-width="1"/>
+<text x="24" y="112.35" font-size="10" font-family="Arial, sans-serif" fill="#555555">3</text>
+<line x1="48" y1="55.13" x2="52" y2="55.13" stroke="#555555" stroke-width="1"/>
+<text x="24" y="59.13" font-size="10" font-family="Arial, sans-serif" fill="#555555">4</text>
+<rect x="63.00" y="266.90" width="48" height="1.10" fill="#1a9850" opacity="0.9"/>
+<rect x="63.00" y="265.66" width="48" height="1.24" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="264.34" width="48" height="1.32" fill="#777777" opacity="0.9"/>
+<rect x="63.00" y="263.00" width="48" height="1.33" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="261.49" width="48" height="1.52" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="259.50" width="48" height="1.99" fill="#1a9850" opacity="0.9"/>
+<rect x="63.00" y="257.04" width="48" height="2.46" fill="#222222" opacity="0.9"/>
+<rect x="63.00" y="254.25" width="48" height="2.79" fill="#4575b4" opacity="0.9"/>
+<rect x="63.00" y="251.26" width="48" height="2.99" fill="#4575b4" opacity="0.9"/>
+<text x="87.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P1</text>
+<rect x="133.00" y="266.89" width="48" height="1.11" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="265.37" width="48" height="1.51" fill="#984ea3" opacity="0.9"/>
+<rect x="133.00" y="263.60" width="48" height="1.78" fill="#1a9850" opacity="0.9"/>
+<rect x="133.00" y="261.49" width="48" height="2.11" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="259.34" width="48" height="2.15" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="255.58" width="48" height="3.77" fill="#1a9850" opacity="0.9"/>
+<rect x="133.00" y="250.72" width="48" height="4.85" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="244.26" width="48" height="6.46" fill="#1a9850" opacity="0.9"/>
+<rect x="133.00" y="236.51" width="48" height="7.75" fill="#222222" opacity="0.9"/>
+<rect x="133.00" y="223.94" width="48" height="12.58" fill="#222222" opacity="0.9"/>
+<text x="157.00" y="234.22" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">L</text>
+<text x="157.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P2</text>
+<rect x="203.00" y="266.93" width="48" height="1.07" fill="#1a9850" opacity="0.9"/>
+<rect x="203.00" y="265.71" width="48" height="1.22" fill="#222222" opacity="0.9"/>
+<rect x="203.00" y="264.43" width="48" height="1.28" fill="#222222" opacity="0.9"/>
+<rect x="203.00" y="263.14" width="48" height="1.29" fill="#222222" opacity="0.9"/>
+<rect x="203.00" y="261.62" width="48" height="1.52" fill="#222222" opacity="0.9"/>
+<text x="227.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P3</text>
+<text x="297.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P4</text>
+<text x="367.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P5</text>
+<rect x="413.00" y="266.67" width="48" height="1.33" fill="#222222" opacity="0.9"/>
+<text x="437.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P6</text>
+<rect x="483.00" y="266.83" width="48" height="1.17" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="265.65" width="48" height="1.18" fill="#1a9850" opacity="0.9"/>
+<rect x="483.00" y="264.46" width="48" height="1.20" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="263.16" width="48" height="1.30" fill="#1a9850" opacity="0.9"/>
+<rect x="483.00" y="261.82" width="48" height="1.34" fill="#222222" opacity="0.9"/>
+<rect x="483.00" y="258.61" width="48" height="3.20" fill="#222222" opacity="0.9"/>
+<text x="507.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P7</text>
+<rect x="553.00" y="266.93" width="48" height="1.07" fill="#222222" opacity="0.9"/>
+<text x="577.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P8</text>
+<rect x="623.00" y="266.98" width="48" height="1.02" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="265.79" width="48" height="1.18" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="264.12" width="48" height="1.67" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="261.37" width="48" height="2.75" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="258.30" width="48" height="3.07" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="255.12" width="48" height="3.17" fill="#4575b4" opacity="0.9"/>
+<rect x="623.00" y="249.09" width="48" height="6.03" fill="#222222" opacity="0.9"/>
+<rect x="623.00" y="238.88" width="48" height="10.21" fill="#4575b4" opacity="0.9"/>
+<text x="647.00" y="247.99" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">R</text>
+<rect x="623.00" y="226.17" width="48" height="12.71" fill="#222222" opacity="0.9"/>
+<text x="647.00" y="236.53" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">Y</text>
+<rect x="623.00" y="185.04" width="48" height="41.13" fill="#4575b4" opacity="0.9"/>
+<text x="647.00" y="209.61" text-anchor="middle" font-size="11" font-family="Arial, sans-serif" font-weight="700" fill="#ffffff">K</text>
+<text x="647.00" y="292" text-anchor="middle" font-size="12" font-family="Arial, sans-serif" fill="#222222">P9</text>
+</svg>
