@@ -7,15 +7,15 @@ Negative-to-positive ratio,1.0
 Selected non-binders,9648
 Selected same-allele non-binders for HLA-A03:01,1110
 Selected other-allele non-binders,8538
-Train selected same-allele non-binders,682
-Train selected other-allele non-binders,4841
-Evaluation selected same-allele non-binders,428
-Evaluation selected other-allele non-binders,3697
+Train selected same-allele non-binders,1032
+Train selected other-allele non-binders,7545
+Evaluation selected same-allele non-binders,78
+Evaluation selected other-allele non-binders,993
 Total labeled peptides,19296
-Held-out amino acid,R
-Train/CV rows,11046
-Train/CV positives,5523
-Train/CV negatives,5523
-Held-out evaluation rows,8250
-Held-out evaluation positives,4125
-Held-out evaluation negatives,4125
+Held-out amino acid,W
+Train/CV rows,17154
+Train/CV positives,8577
+Train/CV negatives,8577
+Held-out evaluation rows,2142
+Held-out evaluation positives,1071
+Held-out evaluation negatives,1071
