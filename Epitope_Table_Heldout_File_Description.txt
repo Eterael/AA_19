@@ -3,14 +3,15 @@ EPITOPE TABLE 19-AA HELD-OUT PREPARATION: FILE DESCRIPTION
 
 Purpose
 -------
-This workflow prepares the new IEDB epitope table XLSX for the same 19-AA
-held-out idea as the HLA runs. It keeps canonical unmodified 9-mer epitopes,
-then creates a train/CV set with one amino acid absent and an evaluation set
-where that amino acid is present.
+This workflow prepares the new IEDB epitope table XLSX as an epitope-only
+held-out run. It keeps canonical unmodified 9-mer epitopes, then creates a
+train/CV set with one amino acid absent and an evaluation set where that amino
+acid is present. It does not read hla_only.txt and does not train on the old
+HLA-only dataset.
 
 This file is not a supervised binding dataset. The workbook does not include
-binding labels or HLA allele columns, so AUC, confusion matrices, and neural
-network performance comparisons are intentionally not reported here.
+binding labels, non-binders, or HLA allele columns, so AUC, confusion matrices,
+and neural network performance comparisons are intentionally not reported here.
 
 Input file
 ----------
@@ -50,10 +51,10 @@ Consensus, evaluation with W: RLWWWWWWK
 
 Held-out decision
 -----------------
-The default split holds out W, matching the earlier HLA W-heldout notebooks.
-The candidate table is still written for all 20 standard amino acids so a
-different held-out amino acid can be selected without changing the filtering
-logic.
+The default split holds out W for continuity with the earlier held-out-AA
+experiments. The candidate table is still written for all 20 standard amino
+acids so a different held-out amino acid can be selected without changing the
+filtering logic.
 
 | Held_Out_AA | Train_Count_No_AA | Evaluation_Count_With_AA | Anchor_P2_or_P9_Count | Anchor_Only_P2_or_P9_Count | Rank_By_Train_Count | Rank_By_Evaluation_Count |
 | --- | --- | --- | --- | --- | --- | --- |
