@@ -1,0 +1,141 @@
+Set,AA,Count,Frequency
+All labeled peptides,A,13166,0.07581306430808918
+All labeled peptides,C,1862,0.01072185369449051
+All labeled peptides,D,7069,0.04070503961673116
+All labeled peptides,E,8689,0.05003339782568638
+All labeled peptides,F,7565,0.043561129537497696
+All labeled peptides,G,10582,0.0609337571402248
+All labeled peptides,H,4175,0.024040676248387693
+All labeled peptides,I,9872,0.05684540261654689
+All labeled peptides,K,13699,0.07888220932375162
+All labeled peptides,L,18438,0.10617053620784964
+All labeled peptides,M,4040,0.02326331306430809
+All labeled peptides,N,6293,0.036236640869725445
+All labeled peptides,P,8284,0.047701308273447575
+All labeled peptides,Q,6357,0.03660516860143726
+All labeled peptides,R,10750,0.06190114243596831
+All labeled peptides,S,11749,0.06765362999815736
+All labeled peptides,T,9874,0.05685691910816289
+All labeled peptides,V,12010,0.06915653215404459
+All labeled peptides,W,2093,0.01205200847613783
+All labeled peptides,Y,7097,0.040866270499355074
+Train/test all,A,8004,0.08051179914297785
+Train/test all,C,1150,0.011567787233186473
+Train/test all,D,4314,0.04339429054257952
+Train/test all,E,5102,0.05132073953366729
+Train/test all,F,4588,0.04615044158770395
+Train/test all,G,6581,0.06619791981008712
+Train/test all,H,2499,0.025137304604985214
+Train/test all,I,6034,0.060695676665258415
+Train/test all,K,8740,0.08791518297221719
+Train/test all,L,10933,0.10997445027863278
+Train/test all,M,2453,0.024674593115657756
+Train/test all,N,3965,0.039883718590942925
+Train/test all,P,5022,0.050516023900054316
+Train/test all,Q,3839,0.038616291468002495
+Train/test all,R,0,0.0
+Train/test all,S,7313,0.07356106785764581
+Train/test all,T,6093,0.06128915444504798
+Train/test all,V,7239,0.0728167058965538
+Train/test all,W,1241,0.012483151266421228
+Train/test all,Y,4304,0.04329370108837789
+Train/test binders,A,3662,0.0736717162572676
+Train/test binders,C,466,0.009374937131591123
+Train/test binders,D,1400,0.02816504717645402
+Train/test binders,E,1646,0.0331140483231738
+Train/test binders,F,2584,0.05198462993139799
+Train/test binders,G,2747,0.055263846138370855
+Train/test binders,H,1311,0.026374554891665156
+Train/test binders,I,2853,0.057396342567445226
+Train/test binders,K,5706,0.11479268513489045
+Train/test binders,L,5858,0.11785060454261975
+Train/test binders,M,1353,0.02721950630695878
+Train/test binders,N,1754,0.03528678053392882
+Train/test binders,P,2438,0.04904741786871064
+Train/test binders,Q,1737,0.03494477638964331
+Train/test binders,R,0,0.0
+Train/test binders,S,3890,0.07825859536886152
+Train/test binders,T,3259,0.06556420624861689
+Train/test binders,V,3547,0.07135815881063029
+Train/test binders,W,710,0.014283702496630253
+Train/test binders,Y,2786,0.0560484438811435
+Train/test non-binders,A,4342,0.08735188202868811
+Train/test non-binders,C,684,0.013760637334781821
+Train/test non-binders,D,2914,0.05862353390870501
+Train/test non-binders,E,3456,0.06952743074416078
+Train/test non-binders,F,2004,0.0403162532440099
+Train/test non-binders,G,3834,0.07713199348180337
+Train/test non-binders,H,1188,0.023900054318305268
+Train/test non-binders,I,3181,0.0639950107630716
+Train/test non-binders,K,3034,0.06103768080954393
+Train/test non-binders,L,5075,0.10209829601464583
+Train/test non-binders,M,1100,0.02212967992435673
+Train/test non-binders,N,2211,0.04448065664795703
+Train/test non-binders,P,2584,0.05198462993139799
+Train/test non-binders,Q,2102,0.04228780654636168
+Train/test non-binders,R,0,0.0
+Train/test non-binders,S,3423,0.06886354034643008
+Train/test non-binders,T,2834,0.05701410264147907
+Train/test non-binders,V,3692,0.07427525298247732
+Train/test non-binders,W,531,0.010682600036212204
+Train/test non-binders,Y,1518,0.03053895829561229
+Held-out evaluation all,A,5162,0.06952188552188553
+Held-out evaluation all,C,712,0.00958922558922559
+Held-out evaluation all,D,2755,0.037104377104377105
+Held-out evaluation all,E,3587,0.04830976430976431
+Held-out evaluation all,F,2977,0.04009427609427609
+Held-out evaluation all,G,4001,0.053885521885521884
+Held-out evaluation all,H,1676,0.022572390572390574
+Held-out evaluation all,I,3838,0.05169023569023569
+Held-out evaluation all,K,4959,0.06678787878787878
+Held-out evaluation all,L,7505,0.10107744107744107
+Held-out evaluation all,M,1587,0.021373737373737375
+Held-out evaluation all,N,2328,0.031353535353535356
+Held-out evaluation all,P,3262,0.043932659932659934
+Held-out evaluation all,Q,2518,0.033912457912457915
+Held-out evaluation all,R,10750,0.1447811447811448
+Held-out evaluation all,S,4436,0.059744107744107745
+Held-out evaluation all,T,3781,0.050922558922558925
+Held-out evaluation all,V,4771,0.06425589225589226
+Held-out evaluation all,W,852,0.011474747474747474
+Held-out evaluation all,Y,2793,0.03761616161616162
+Held-out evaluation binders,A,2303,0.06203367003367003
+Held-out evaluation binders,C,269,0.0072457912457912456
+Held-out evaluation binders,D,890,0.023973063973063972
+Held-out evaluation binders,E,1126,0.03032996632996633
+Held-out evaluation binders,F,1701,0.04581818181818182
+Held-out evaluation binders,G,1628,0.04385185185185185
+Held-out evaluation binders,H,844,0.022734006734006735
+Held-out evaluation binders,I,1907,0.05136700336700337
+Held-out evaluation binders,K,3029,0.08158922558922559
+Held-out evaluation binders,L,4147,0.11170370370370371
+Held-out evaluation binders,M,859,0.023138047138047138
+Held-out evaluation binders,N,1043,0.028094276094276095
+Held-out evaluation binders,P,1682,0.04530639730639731
+Held-out evaluation binders,Q,1166,0.031407407407407405
+Held-out evaluation binders,R,5425,0.14612794612794613
+Held-out evaluation binders,S,2378,0.06405387205387206
+Held-out evaluation binders,T,2078,0.05597306397306397
+Held-out evaluation binders,V,2381,0.06413468013468014
+Held-out evaluation binders,W,472,0.012713804713804714
+Held-out evaluation binders,Y,1797,0.0484040404040404
+Held-out evaluation non-binders,A,2859,0.07701010101010101
+Held-out evaluation non-binders,C,443,0.011932659932659932
+Held-out evaluation non-binders,D,1865,0.05023569023569024
+Held-out evaluation non-binders,E,2461,0.06628956228956229
+Held-out evaluation non-binders,F,1276,0.03437037037037037
+Held-out evaluation non-binders,G,2373,0.06391919191919192
+Held-out evaluation non-binders,H,832,0.022410774410774412
+Held-out evaluation non-binders,I,1931,0.05201346801346801
+Held-out evaluation non-binders,K,1930,0.051986531986531984
+Held-out evaluation non-binders,L,3358,0.09045117845117845
+Held-out evaluation non-binders,M,728,0.019609427609427608
+Held-out evaluation non-binders,N,1285,0.034612794612794616
+Held-out evaluation non-binders,P,1580,0.04255892255892256
+Held-out evaluation non-binders,Q,1352,0.03641750841750842
+Held-out evaluation non-binders,R,5325,0.14343434343434344
+Held-out evaluation non-binders,S,2058,0.05543434343434343
+Held-out evaluation non-binders,T,1703,0.04587205387205387
+Held-out evaluation non-binders,V,2390,0.06437710437710438
+Held-out evaluation non-binders,W,380,0.010235690235690235
+Held-out evaluation non-binders,Y,996,0.02682828282828283

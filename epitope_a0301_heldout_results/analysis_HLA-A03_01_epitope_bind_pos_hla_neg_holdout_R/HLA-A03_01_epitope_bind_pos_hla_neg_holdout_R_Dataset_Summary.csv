@@ -1,0 +1,8 @@
+Set,Rows,Unique_Peptides,Positives,Negatives,Positive_Rate
+All labeled peptides,19296,19296,9648,9648,0.5
+Train/test all,11046,11046,5523,5523,0.5
+Train/test binders,5523,5523,5523,0,1.0
+Train/test non-binders,5523,5523,0,5523,0.0
+Held-out evaluation all,8250,8250,4125,4125,0.5
+Held-out evaluation binders,4125,4125,4125,0,1.0
+Held-out evaluation non-binders,4125,4125,0,4125,0.0

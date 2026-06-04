@@ -1,0 +1,7 @@
+Split,Source_Group,Rows,Unique_Peptides
+Held-out evaluation,negative_other_allele_hla_only,3697,3697
+Held-out evaluation,negative_same_allele_hla_only,428,428
+Held-out evaluation,positive_epitope_xlsx,4125,4125
+Train/test,negative_other_allele_hla_only,4841,4841
+Train/test,negative_same_allele_hla_only,682,682
+Train/test,positive_epitope_xlsx,5523,5523
